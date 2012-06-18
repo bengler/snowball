@@ -1,0 +1,10 @@
+{
+  "name": "snowball",
+  "version": "0.0.0",
+  "dependencies": {
+    "browserify": "latest"
+  },
+  "engines": {
+    "node": "*"
+  }
+}
