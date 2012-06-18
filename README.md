@@ -23,7 +23,7 @@ With snowball you can:
 ```js
   require("./path/to/my-esoteric-lib.js")
 ```
-The only thing you need to make sure is that your esoteric library follows the [http://wiki.commonjs.org/wiki/Modules/1.1](CommonJS) spec and adds itself to the `exports` object. Something like this will do the trick:
+The only thing you need to make sure is that your esoteric library follows the [CommonJS / Modules spec](http://wiki.commonjs.org/wiki/Modules/1.1) and adds itself to the `exports` object. Something like this will do the trick:
 ```js
   exports.MyAPI = MyAPI
 ```
