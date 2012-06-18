@@ -2,7 +2,9 @@
   "name": "snowball",
   "version": "0.0.0",
   "dependencies": {
-    "browserify": "latest"
+    "browserify": "latest",
+    "jade": "latest",
+    "optimist": "latest"
   },
   "engines": {
     "node": "*"
