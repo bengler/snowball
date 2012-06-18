@@ -15,6 +15,7 @@ module Sinatra
           return f if File.exists?(f)
         end
       end
+      raise "File #{file} not found (Load paths: #{load_paths.inspect})"
     end
 
     class Config
