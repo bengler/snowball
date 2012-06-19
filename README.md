@@ -79,7 +79,7 @@ myapp
     class MyApp extends Sinatra::Base
       register Sinatra::Snowball
       snowball do
-        set_serve_path "/assets"
+        set_serve_path "/bundles"
         add_load_path "js"
       end
       # (...)
@@ -95,8 +95,8 @@ Example rake task that takes a an entry file, concatenates and compresses it to 
 
 ```ruby
 namespace :snowball do
-  target = './public/bundle1.js'
-  entryfile = './app/assets/js/bundle1.coffee'
+  target = './public/all.js'
+  entryfile = './js/all.coffee'
 
   desc "Roll a new javascript bundle"
   task :roll do
