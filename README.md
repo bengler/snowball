@@ -65,10 +65,6 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install snowball
-
 ## Usage
 
 # Define a bundle
