@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "dependencies": {
     "browserify": "latest",
-    "jade": "latest",
+    "jade": "git://github.com/visionmedia/jade#master",
     "optimist": "latest"
   },
   "engines": {
