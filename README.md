@@ -8,25 +8,51 @@ _(__  )_  / / / /_/ /_ |/ |/ /_  /_/ / /_/ /_  / _  /
   Makes your front-end code roll
 ```
 
-With snowball you can:
+# What?
+Snowball enables you to:
+
   - Use npm for dependency management
-  - Run your client side javascript on a server with ease (i.e. running tests on a CI server)
-  - Serve pre-defined bundles through sinatra
-  - Compile and minifiy all your javascript bundles in a pre-deploy step
+  - Run your front-end javascript on a server with ease (i.e. running tests on a CI server)
+  - Serve pre-defined bundles through Sinatra
+  - Compile and minifiy all your JavaScript in a pre-deploy step
+  - Write your front-end code in CoffeeScript
+  - Serve pre-compiled Jade templates for your front-end
 
 # Why?
-  - Because Sprockets kinda works only when you depend on very few javascript libraries
-  - Because npm is really good at managing dependencies
-  
-### But i need a javascript library that is not available through npm?
-  Oh, no problem! You can still require reqular files in your bundle files like this:
+Because:
+
+  - [Sprockets](https://github.com/sstephenson/sprockets) is kinda cumbersome when you have a large number of dependencies.
+  - [npm](http://npmjs.org) is really really good at managing dependencies for you.
+
+# How?
+  - It uses [browserify](https://github.com/substack/node-browserify) magic to search your code for require() statements and figure
+    out which dependencies to include in the bundle.
+
+## FAQ
+
+### Oh, but I depend on a javascript library that is not in the npm repository!
+
+No problem, really! You can still require reqular files in your bundle files like this:
   
 ```js
   require("./path/to/my-esoteric-lib.js")
 ```
-The only thing you need to make sure is that your esoteric library follows the [CommonJS / Modules spec](http://wiki.commonjs.org/wiki/Modules/1.1) and adds itself to the `exports` object. Something like this will do the trick:
+
+### Oh, but I have a lot of javascript code that is not written as Node modules!
+
+Really? Then you should start converting right away.
+
+The only thing you need to make sure is that your esoteric library follows the [CommonJS / Modules spec](http://wiki.commonjs.org/wiki/Modules/1.1) 
+and adds itself to the `exports` object. This is how [underscore.js](http://underscorejs.org/docs/underscore.html#section-10) does that:
 ```js
-  exports.MyAPI = MyAPI
+if (typeof exports !== 'undefined') {
+  if (typeof module !== 'undefined' && module.exports) {
+    exports = module.exports = _;
+  }
+  exports._ = _;
+} else {
+  root['_'] = _;
+}
 ```
 
 ## Installation
