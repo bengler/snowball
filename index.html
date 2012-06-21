@@ -1,0 +1,205 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Snowball by bengler</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Snowball</h1>
+        <p>Makes your front-end code roll</p>
+
+        <p class="view"><a href="https://github.com/bengler/snowball">View the Project on GitHub <small>bengler/snowball</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/bengler/snowball/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/bengler/snowball/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/bengler/snowball">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <pre><code>                              ______        ___________
+_______________________      ____  /_______ ___  /__  /
+__  ___/_  __ \  __ \_ | /| / /_  __ \  __ `/_  /__  / 
+_(__  )_  / / / /_/ /_ |/ |/ /_  /_/ / /_/ /_  / _  /  
+/____/ /_/ /_/\____/____/|__/ /_.___/\__,_/ /_/  /_/  
+
+  Makes your front-end code roll
+</code></pre>
+
+<h1>What?</h1>
+
+<p>Snowball enables you to:</p>
+
+<ul>
+<li>Use npm for dependency management</li>
+<li>Run your front-end javascript on a server with ease (i.e. running tests on a CI server)</li>
+<li>Serve pre-defined bundles through Sinatra</li>
+<li>Compile and minifiy all your JavaScript in a pre-deploy step</li>
+<li>Write your front-end code in CoffeeScript</li>
+<li>Serve pre-compiled Jade templates for your front-end</li>
+</ul><h1>Why?</h1>
+
+<p>Because:</p>
+
+<ul>
+<li>
+<a href="https://github.com/sstephenson/sprockets">Sprockets</a> is kinda cumbersome when you have a large number of dependencies.</li>
+<li>
+<a href="http://npmjs.org">npm</a> is really really good at managing dependencies for you.</li>
+</ul><h1>How?</h1>
+
+<ul>
+<li>It uses <a href="https://github.com/substack/node-browserify">browserify</a> magic to search your code for require() statements and figure
+out which dependencies to include in the bundle.</li>
+</ul><h2>FAQ</h2>
+
+<h3>Oh, but I depend on a javascript library that is not in the npm repository!</h3>
+
+<p>No problem, really! You can still require reqular files in your bundle files like this:</p>
+
+<div class="highlight">
+<pre>  <span class="nx">require</span><span class="p">(</span><span class="s2">"./path/to/my-esoteric-lib.js"</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<h3>Oh, but I have a lot of javascript code that is not written as Node modules!</h3>
+
+<p>Really? Then you should start converting right away.</p>
+
+<p>The only thing you need to make sure is that your esoteric library follows the <a href="http://wiki.commonjs.org/wiki/Modules/1.1">CommonJS / Modules spec</a> 
+and adds itself to the <code>exports</code> object. This is how <a href="http://underscorejs.org/docs/underscore.html#section-10">underscore.js</a> does that:</p>
+
+<div class="highlight">
+<pre><span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">exports</span> <span class="o">!==</span> <span class="s1">'undefined'</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">module</span> <span class="o">!==</span> <span class="s1">'undefined'</span> <span class="o">&amp;&amp;</span> <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">exports</span> <span class="o">=</span> <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">_</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nx">exports</span><span class="p">.</span><span class="nx">_</span> <span class="o">=</span> <span class="nx">_</span><span class="p">;</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+  <span class="nx">root</span><span class="p">[</span><span class="s1">'_'</span><span class="p">]</span> <span class="o">=</span> <span class="nx">_</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h2>Installation</h2>
+
+<p>Add this line to your application's Gemfile:</p>
+
+<pre><code>gem 'snowball'
+</code></pre>
+
+<p>And then execute:</p>
+
+<pre><code>$ bundle
+</code></pre>
+
+<h2>Usage</h2>
+
+<h1>Define a bundle</h1>
+
+<p>Defining a bundle is as easy as creating a javascript file and require() your dependencies. Then you just 
+add the containing folder to the Snowball search path, configure the endpoint you'd like to
+serve bundles from, and you are good to go.</p>
+
+<p>I.e. given the follwing project layout:</p>
+
+<pre><code>myapp
+  |- js
+      |- all.js
+</code></pre>
+
+<div class="highlight">
+<pre>          <span class="kd">var</span> <span class="nx">$</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"jquery"</span><span class="p">);</span>
+          <span class="kd">var</span> <span class="nx">Backbone</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"backbone"</span><span class="p">);</span>
+          <span class="kd">var</span> <span class="nx">myJsApp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"myjsapp"</span><span class="p">).</span><span class="nx">App</span><span class="p">;</span>
+          <span class="nx">myJsApp</span><span class="p">.</span><span class="nx">init</span><span class="p">()</span>
+</pre>
+</div>
+
+
+<pre><code>      |- minimal.js
+</code></pre>
+
+<div class="highlight">
+<pre>          <span class="kd">var</span> <span class="nx">$</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"jquery"</span><span class="p">);</span>
+          <span class="kd">var</span> <span class="nx">myTinyVersion</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"tinyapp"</span><span class="p">).</span><span class="nx">TinyApp</span><span class="p">;</span>
+          <span class="nx">myTinyVersion</span><span class="p">.</span><span class="nx">init</span><span class="p">();</span>
+</pre>
+</div>
+
+
+<pre><code>  |- my_app.rb
+</code></pre>
+
+<div class="highlight">
+<pre>    <span class="k">class</span> <span class="nc">MyApp</span> <span class="n">extends</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+      <span class="n">register</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Snowball</span>
+      <span class="n">snowball</span> <span class="k">do</span>
+        <span class="n">set_serve_path</span> <span class="s2">"/bundles"</span>
+        <span class="n">add_load_path</span> <span class="s2">"js"</span>
+      <span class="k">end</span>
+      <span class="c1"># (...)</span>
+    <span class="k">end</span>
+</pre>
+</div>
+
+
+<p>Now your bundles are available from /bundles/all.js and /bundles/minimal.js and all dependencies are automatically
+resolved and concatenated into that file</p>
+
+<h1>Precompiling bundles pre-deploy</h1>
+
+<p>Example rake task that takes a an entry file, concatenates and compresses it to a target file.</p>
+
+<div class="highlight">
+<pre><span class="n">namespace</span> <span class="ss">:snowball</span> <span class="k">do</span>
+  <span class="n">target</span> <span class="o">=</span> <span class="s1">'./public/all.js'</span>
+  <span class="n">entryfile</span> <span class="o">=</span> <span class="s1">'./js/all.coffee'</span>
+
+  <span class="n">desc</span> <span class="s2">"Roll a new javascript bundle"</span>
+  <span class="n">task</span> <span class="ss">:roll</span> <span class="k">do</span>
+    <span class="nb">require</span> <span class="s2">"uglifier"</span>
+    <span class="nb">require</span> <span class="s2">"snowball/roller"</span>
+    <span class="nb">puts</span> <span class="s2">"Rolling..."</span>
+    <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span>
+      <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="no">Uglifier</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="no">Snowball</span><span class="o">::</span><span class="no">Roller</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">entryfile</span><span class="p">)</span><span class="o">.</span><span class="n">roll</span><span class="p">))</span>
+    <span class="k">end</span>
+    <span class="nb">puts</span> <span class="s2">"Done!"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<h2>Contributing</h2>
+
+<ol>
+<li>Fork it</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am 'Added some feature'</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create new Pull Request</li>
+</ol>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/bengler">bengler</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
