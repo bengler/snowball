@@ -5,4 +5,5 @@ task :default => :prepare
 task :prepare do
   puts "Running npm install"
   system("npm install")
+  system("npm shrinkwrap")
 end
