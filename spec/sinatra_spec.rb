@@ -36,4 +36,11 @@ describe "SnowballApp" do
     last_response.body.should match Regexp.escape('console.log("Chunky bacon")')
   end
 
+
+  it "raises a BrowserifyError if process fails" do
+    get "/assets/will-fail.js"
+    last_response.status.should eq 500
+    last_response.body.should match "Snowball::BrowserifyError"
+  end
+
 end

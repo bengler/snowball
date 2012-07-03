@@ -17,8 +17,8 @@ module Snowball
 
       Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thr|
         source = stdout.read
-        unless (err = stderr.read).empty?
-          raise BrowserifyError.new "Got error while executing \"#{cmd}\" command: #{err}"
+        unless wait_thr.value.success?
+          raise BrowserifyError.new "Got error while executing \"#{cmd}\" command: #{stderr.read}"
         end
         return source
       end
