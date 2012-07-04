@@ -1,6 +1,6 @@
 {
   "name": "snowball",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "dependencies": {
     "browserify": "git://github.com/bjoerge/node-browserify",
     "jade": "latest",
@@ -8,5 +8,7 @@
   },
   "engines": {
     "node": "*"
-  }
+  },
+  "devDependencies": {},
+  "optionalDependencies": {}
 }
