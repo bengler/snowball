@@ -37,10 +37,22 @@ describe "SnowballApp" do
   end
 
 
-  it "raises a BrowserifyError if process fails" do
+  it "Forwards errors to the browser by throwing them in the bundle" do
     get "/assets/will-fail.js"
-    last_response.status.should eq 500
-    last_response.body.should match "Snowball::BrowserifyError"
+    last_response.status.should eq 200
+    last_response.body.should match Regexp.escape('throw new Error("Error while loading \"this-module-doesnt-exist\": Cannot find module: \"this-module-doesnt-exist\"')
+  end
+
+  it "Also forwards parse/syntax errors" do
+    get "/assets/syntax-error.js"
+    last_response.status.should eq 200
+    last_response.body.should match Regexp.escape("throw new Error(\"Parse error on line 1: Unexpected '...'\");")
+  end
+
+  it "Forwards parse/syntax errors even if the error occurs in a require()'d file" do
+    get "/assets/require-error.js"
+    last_response.status.should eq 200
+    last_response.body.should match Regexp.escape("Parse error on line 1: Unexpected '...'")
   end
 
 end

@@ -2,8 +2,8 @@
   "name": "snowball",
   "version": "0.0.0",
   "dependencies": {
-    "browserify": "latest",
-    "jade": "git://github.com/visionmedia/jade#master",
+    "browserify": "git://github.com/bjoerge/node-browserify",
+    "jade": "latest",
     "optimist": "latest"
   },
   "engines": {
