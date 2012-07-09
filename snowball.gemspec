@@ -14,9 +14,9 @@ Gem::Specification.new do |gem|
   gem.name          = "snowball"
   gem.require_paths = ["lib"]
   gem.version       = Snowball::VERSION
-
-  gem.extensions = "Rakefile"
   
+  gem.extensions << 'extconf.rb'
+
   gem.add_development_dependency "rspec"
   gem.add_development_dependency "rack-test"
   gem.add_development_dependency "sinatra"
