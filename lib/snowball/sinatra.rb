@@ -19,10 +19,14 @@ module Sinatra
     end
 
     class Config
-      attr_accessor :serve_path, :load_paths
+      attr_accessor :serve_path, :load_paths, :ignore
 
       def set_serve_path(path)
         @serve_path = path
+      end
+
+      def set_ignore(globstr)
+        @ignore = globstr
       end
 
       def add_load_path(path)
@@ -43,10 +47,15 @@ module Sinatra
       config = Config.new
       config.send(:instance_eval, &block)
       self.set :snowball, config
-      self.get "#{config.serve_path}/:bundle" do |bundle|
+      self.get "#{config.serve_path}/*" do |bundle|
         content_type :js
         entryfile = Snowball.resolve_file config, bundle
-        [200, ::Snowball::Roller.new(entryfile).roll]
+
+        if config.ignore && File.fnmatch(config.ignore, entryfile)
+          [200, File.read(entryfile)]
+        else
+          [200, ::Snowball::Roller.new(entryfile).roll]
+        end
       end
     end
 

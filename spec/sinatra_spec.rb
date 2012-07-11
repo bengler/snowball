@@ -55,4 +55,10 @@ describe "SnowballApp" do
     last_response.body.should match Regexp.escape("Parse error on line 1: Unexpected '...'")
   end
 
+  it "Can specify a glob string of files that should be served raw" do
+    get "/assets/meat/steak.js"
+    last_response.status.should eq 200
+    last_response.body.should match 'var steak = "raw"'
+  end
+
 end
