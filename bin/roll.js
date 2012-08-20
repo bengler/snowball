@@ -33,7 +33,7 @@ bundle.register('.jade', function (b, filename) {
     'var jade = require("jade-runtime").runtime;' +
     'module.exports = function(locals, attrs, escape, rethrow, merge) {' +
     '  var locals = require("jade-runtime").globals.merge(locals);' +
-    '  ('+compiled+")(locals, attrs, escape, rethrow, merge);" +
+    '  return ('+compiled+")(locals, attrs, escape, rethrow, merge);" +
     '}';
   }
 );
