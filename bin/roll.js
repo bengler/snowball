@@ -18,45 +18,25 @@ var argv = require('optimist')
 
 bundle = browserify();
 
-bundle.register('.jade', function() {
-  // Hook the jade runtime object to a random key in the window object
-  var jadeKey = "__jade__"+Math.random().toString(16).substring(2);
-  var init = function() {
-    var jadeRuntimeSource = fs.readFileSync(path.join(__dirname, "..", 'node_modules', 'jade', 'lib', 'runtime.js'));
-    // yiha, code that writes code!
-    buf = [];
-    buf.push("window['"+jadeKey+"'] = (function() {");
-    buf.push(  "var jade = { exports: {} };");
-    buf.push(  "(function(module, exports) {");
-    buf.push(     jadeRuntimeSource);
-    buf.push(   "})(jade, jade.exports);");
-    // Overwrite jade's rethrow because it uses the node.js fs module and thus will fail in browser context
-    // Waiting for this https://github.com/visionmedia/jade/pull/543
-    // Todo: could also consider including a sourcemapping here in debug mode
-    buf.push(   "jade.exports.rethrow = function(err, filename, lineno) {");
-    buf.push(     'throw new Error(err.toString()+"\\n  In "+filename+":"+lineno)');
-    buf.push(   "};");
-    buf.push(   "return jade.exports;");
-    buf.push("})();");
-
-    bundle.prepend(buf.join("\n"));
-    init = false;
-  };
-  return function (b, filename) {
-    var body = fs.readFileSync(filename);
-    if (init) init();
-    var compiled;
-    try {
-      compiled = jade.compile(body, {filename: filename, client: true, compileDebug: true}).toString();
-    }
-    catch (e) {
-      // There's a syntax error in the template. Wrap it into a function that will throw an error when templates is used
-      compiled = "function() {throw new Error(unescape('"+escape(e.toString()+"\nIn "+filename)+"'))}"
-    }
-    // Scope jade into the compiled render function by grabbing it from the window object again
-    return "var jade = window['"+jadeKey+"'];module.exports="+compiled;
+bundle.register('.jade', function (b, filename) {
+  var body = fs.readFileSync(filename);
+  var compiled;
+  try {
+    compiled = jade.compile(body, {filename: filename, client: true, compileDebug: true}).toString();
   }
-}());
+  catch (e) {
+    // There's a syntax error in the template. Wrap it into a function that will throw an error when templates is used
+    compiled = "function() {throw new Error(unescape('"+escape(e.toString()+"\nIn "+filename)+"'))}"
+  }
+  // Wrap the compiled template function in a function that merges in previously registered globals (i.e. helpers, etc)
+  return ''+
+    'var jade = require("jade-runtime").runtime;' +
+    'module.exports = function(locals, attrs, escape, rethrow, merge) {' +
+    '  var locals = require("jade-runtime").globals.merge(locals);' +
+    '  ('+compiled+")(locals, attrs, escape, rethrow, merge);" +
+    '}';
+  }
+);
 
 if (argv.ignore) {
   bundle.ignore(argv.ignore);
