@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../lib/snowball/version', __FILE__)
+$:.push File.expand_path("../lib", __FILE__)
+require "snowball/version"
 
 Gem::Specification.new do |gem|
   gem.authors       = ["Bjørge Næss"]
@@ -17,7 +18,9 @@ Gem::Specification.new do |gem|
   
   gem.extensions << 'extconf.rb'
 
+  gem.add_development_dependency "sinatra"
+  gem.add_development_dependency "haml"
   gem.add_development_dependency "rspec"
   gem.add_development_dependency "rack-test"
-  gem.add_development_dependency "sinatra"
+  gem.add_development_dependency "simplecov"
 end

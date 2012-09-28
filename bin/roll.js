@@ -1,23 +1,35 @@
 var browserify = require("browserify"),
     jade = require("jade"),
+    CoffeeScript = require("CoffeeScriptRedux"),
     fs = require("fs"),
     path = require("path"),
     bundle;
 
 var argv = require('optimist')
-    .usage('Usage: node roll.js [entry files] {OPTIONS}')
+    .usage('Usage: browserify [entry files] {OPTIONS}')
     .wrap(80)
-    .option('ignore', {
-        alias : 'i',
-        desc : 'Ignore a file'
+    .option('require', {
+        alias : 'r',
+        desc : 'A module name or file to bundle.require()\n'
+            + 'Optionally use a colon separator to set the target.'
     })
     .option('entry', {
         alias : 'e',
         desc : 'An entry point of your app'
+    })
+    .option('ignore', {
+        alias : 'i',
+        desc : 'Ignore a file'
+    })
+    .option('prelude', {
+        default : true,
+        type : 'boolean',
+        desc : 'Include the code that defines require() in this bundle.'
     }).argv;
 
 bundle = browserify();
 
+// Todo: make jade-support optional (consider snowball plugins?)
 bundle.register('.jade', function (b, filename) {
   var body = fs.readFileSync(filename);
   var compiled;
@@ -37,6 +49,15 @@ bundle.register('.jade', function (b, filename) {
     '}';
   }
 );
+
+if (argv.prelude === false) {
+    bundle.files = [];
+    bundle.prepends = [];
+}
+
+([].concat(argv.require || [])).forEach(function (req) {
+    bundle.require(req);
+});
 
 if (argv.ignore) {
   bundle.ignore(argv.ignore);
