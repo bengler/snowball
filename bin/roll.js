@@ -1,6 +1,5 @@
 var browserify = require("browserify"),
     jade = require("jade"),
-    CoffeeScript = require("CoffeeScriptRedux"),
     fs = require("fs"),
     path = require("path"),
     bundle;
