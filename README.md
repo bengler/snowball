@@ -126,7 +126,7 @@ namespace :snowball do
     require "snowball/roller"
     puts "Rolling..."
     File.open(target, 'w') do |f|
-      f.write(Uglifier.compile(Snowball::Roller.new(entryfile).roll))
+      f.write(Uglifier.compile(Snowball::Roller.roll(entryfile, Snowball::Config.new)))
     end
     puts "Done!"
   end
