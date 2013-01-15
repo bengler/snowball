@@ -22,6 +22,11 @@ module Snowball
         @config.ignores << node_module
       end
 
+      def setenv(*args)
+        @config.env.merge!(args.first) and return if args.size == 1
+        @config.env[args.first] = args[1]
+      end
+
       def include(node_module)
         @config.includes << node_module
       end
@@ -31,7 +36,7 @@ module Snowball
       end
     end
 
-    attr_accessor :http_path, :source_paths, :raw, :extensions, :includes, :ignores, :prelude
+    attr_accessor :http_path, :source_paths, :raw, :extensions, :includes, :ignores, :prelude, :env
 
     def initialize
       @extensions = [:js, :coffee]
@@ -39,6 +44,7 @@ module Snowball
       @raw = []
       @includes = []
       @ignores = []
+      @env = {}
       @prelude = true
     end
   end

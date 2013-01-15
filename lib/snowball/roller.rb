@@ -17,6 +17,10 @@ module Snowball
       args << "--prelude #{!!opts.prelude}"
       args << "--entry #{entry}"
 
+      args += (opts.env || {}).map do |k,v|
+        "--env #{k}=#{v}"
+      end
+
       cmd = "node #{EXECUTABLE} #{args.join(" ")}"
 
       Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thr|
