@@ -88,26 +88,4 @@ describe "SnowballApp" do
       last_response.body.should include "<script src='/js/food/steak.js'></script>"
     end
   end
-
-  describe "roller" do
-    it "will fail with a Snowball::RollError if executing roll.js in node fails" do
-      config = ::Snowball::Config.new
-      config.includes = ["thisdoesntexist"]
-      -> { Snowball::Roller.roll("fixtures/js/some.coffee", config) }.should raise_error(::Snowball::RollError)
-    end
-  end
-
-  describe "file resolving" do
-    it "will only resolve files contained in any of the given load paths" do
-      get "/js/../super-secret.js"
-      last_response.status.should eq 404
-    end
-    it "will resolve files contained in any of the source paths sub directories" do
-      get "/js/pastry/tartlet.js"
-      last_response.status.should eq 200
-
-      get "/js/pastry/tart.js"
-      last_response.status.should eq 200
-    end
-  end
 end
