@@ -53,7 +53,7 @@ if (argv.env) {
 bundle = browserify();
 
 // Todo: make jade-support optional (consider snowball plugins?)
-bundle.register('.jade', function () {
+bundle.register('.jade', (function () {
   var compileDebug = !!(argv.env && argv.env.hasOwnProperty('NODE_ENV') && argv.env.NODE_ENV == 'development');
   return function (b, filename) {
     var body = fs.readFileSync(filename);
@@ -77,7 +77,7 @@ bundle.register('.jade', function () {
       '  return ('+compiled+")(locals, attrs, escape, rethrow, merge);" +
       '}';
   }
-});
+})());
 
 if (argv.prelude === false) {
     bundle.files = [];
