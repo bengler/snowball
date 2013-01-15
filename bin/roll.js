@@ -66,8 +66,8 @@ bundle.register('.jade', (function () {
       }).toString();
     }
     catch (e) {
-      // There's a syntax error in the template. Wrap it into a function that will throw an error when templates is used
-      compiled = "function() {throw new Error(unescape('"+escape(e.toString()+"\nIn "+filename)+"'))}"
+      // There's a syntax error in the template. Wrap it into a function that will immediately throw an error
+      return '\nthrow new '+ e.name +'('+JSON.stringify(e.message)+');';
     }
     // Wrap the compiled template function in a function that merges in previously registered globals (i.e. helpers, etc)
     return ''+
@@ -109,12 +109,8 @@ if (argv.ignore) {
   bundle.ignore(argv.ignore);
 }
 
-bundle.on("loadError", function(e) {
-  bundle.prepend('\nthrow new Error('+JSON.stringify(e.message)+');');
-});
-
 bundle.on("syntaxError", function(e) {
-  bundle.prepend('throw new Error('+JSON.stringify(e.message)+');');
+  bundle.prepend('throw new SyntaxError('+JSON.stringify(e.toString())+');');
 });
 
 (argv._.concat(argv.entry || [])).forEach(function (entry) {
