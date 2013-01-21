@@ -90,15 +90,19 @@ if (argv.env) {
   bundle.entries['/__browserify_process__setenv'] = {
     body: ''+
       'var __browserify_process = require("__browserify_process"),' +
-      '   env = '+JSON.stringify(argv.env)+';' +
-      'Object.keys(env).forEach(function(varname) {'+
-      '  if (!(varname in __browserify_process.env)) {'+
-      '    __browserify_process.env[varname] = env[varname];'+
-      '  }' +
-      '  else {' +
-      '  console.log("Environment variable already set in browserify environment: %s", varname);' +
+      '   env = '+JSON.stringify(argv.env)+',' +
+      '   hasProp = Object.prototype.hasOwnProperty;' +
+      'for (var key in env) {'+
+      '  if (!hasProp.call(env, key)) { continue; }'+
+      '  if (hasProp.call(__browserify_process.env, key)) {'+
+      '    if ((typeof console) != "undefined" && (typeof console.log) == "function") {'+
+      '      console.log("Environment variable already set in browserify environment: %s", key);' +
+      '    }' +
+      '    continue;' +
       '  }'+
-      '})'};
+      '  __browserify_process.env[key] = env[key];'+
+      '}'
+  };
 }
 
 ([].concat(argv.require || [])).forEach(function (req) {
