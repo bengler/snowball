@@ -48,23 +48,16 @@ describe "SnowballApp" do
       last_response.status.should eq 404
     end
 
-    it "forwards errors to the browser by throwing them in the bundle" do
-      get "/js/will-fail.js"
-      last_response.status.should eq 200
-
-      last_response.body.should match /throw new Error\(\"Cannot find module\: \\"this\-module\-doesnt\-exist\\" from directory (.*) while processing file (.*)will\-fail\.js/
-    end
-
     it "also forwards parse/syntax errors" do
       get "/js/syntax-error.js"
       last_response.status.should eq 200
-      last_response.body.should match /throw new Error\(\"In (.*)syntax\-error\.coffee\, Parse error on line 1\: Unexpected \'\.\.\.\'\"/
+      last_response.body.should match /throw new SyntaxError\("Error: In .*\/js\/syntax-error.coffee, Parse error on line 1: Unexpected '...'"\)/
     end
 
     it "forwards parse/syntax errors even if the error occurs in a require()'d file" do
       get "/js/require-error.js"
       last_response.status.should eq 200
-      last_response.body.should match /throw new Error\(\"In (.*)syntax\-error\.coffee\, Parse error on line 1\: Unexpected \'\.\.\.\'\"/
+      last_response.body.should match /throw new SyntaxError\("Error: In .*\/js\/syntax-error.coffee, Parse error on line 1: Unexpected '...'"\)/
     end
 
     it "can specify a glob string of files that should be served raw" do
