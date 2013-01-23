@@ -8,16 +8,17 @@ module Snowball
     def self.roll(entry, opts)
       args = []
 
-      ignores = opts.ignores.dup
+      ignores = opts[:ignores].dup
       ignores.unshift *%w(jsdom xmlhttprequest location navigator)
       ignores.uniq!
 
       args << ignores.map { |node_module| "--ignore #{node_module}" }.join(" ")
-      args << opts.includes.map { |node_module| "--require #{node_module}" }.join(" ")
-      args << "--prelude #{!!opts.prelude}"
+      args << opts[:includes].map { |node_module| "--require #{node_module}" }.join(" ")
+      args << "--prelude #{!!opts[:prelude]}"
       args << "--entry #{entry}"
+      args << "--raw" if opts[:raw]
 
-      args += (opts.env || {}).map do |k,v|
+      args += (opts[:env] || {}).map do |k,v|
         "--env #{k}=#{v}"
       end
 

@@ -4,7 +4,8 @@ class SnowballApp < Sinatra::Base
     http_path "/js"
     source_path "spec/fixtures/js"
     source_path "spec/fixtures/js/food"
-    raw "*/food/steak.js"
+    raw "*/js/raw-2.js"
+    raw "*/js/raw.coffee"
   end
 
   get "/javascript_tag" do

@@ -11,6 +11,10 @@ var argv = optimist
     .option('help', {
       desc : 'Show this help'
     })
+    .option('raw', {
+      alias : 'r',
+      desc : 'Just compile entry file, without using browserify.'
+    })
     .option('require', {
         alias : 'r',
         desc : 'A module name or file to bundle.require()\n'
@@ -38,6 +42,27 @@ var argv = optimist
 if (argv.help) {
   return optimist.showHelp()
 }
+if (argv.raw) {
+  var compilers = {
+    coffee: function (data) {
+      var coffee = require("coffee-script");
+      return coffee.compile(data);
+    }
+  };
+  (argv._.concat(argv.entry || [])).forEach(function (entry) {
+    // todo: keep a map of extension => compiler instead (in order to support jade compiling too)
+    var compile = compilers[path.extname(entry).replace(/^\./, "")];
+    fs.readFile(entry, function (err, data) {
+      if (err) throw err;
+      if (compile) data = compile(data.toString());
+      process.stdout.write("\n");
+      process.stdout.write(data);
+      process.stdout.write("\n");
+    });
+  });
+  return;
+}
+
 
 // Parse argv.env properly
 // turns argv.env strings like ['FOO=bar', 'BAZ=qux', ...] into an object of { FOO: 'bar', BAZ:'qux' }

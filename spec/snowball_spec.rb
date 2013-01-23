@@ -31,10 +31,22 @@ describe "SnowballApp" do
       last_response.body.should match compiled
     end
 
-    it "serves the coffee-script file raw if requested with .coffee as extension" do
+    it "serves the coffee-script file as source if requested with .coffee as extension" do
       get "/js/require.coffee"
       last_response.status.should eq 200
       last_response.body.should match Regexp.escape("test = ->")
+    end
+
+    it "serves the javascript entry raw (not browserified) it matches the configured glob strings" do
+      get "/js/raw-2.js"
+      last_response.status.should eq 200
+      last_response.body.should match Regexp.escape('console.log("That is awesome!");')
+    end
+
+    it "serves the coffeescript entry raw (combiled, but not browserified) it matches the configured glob strings" do
+      get "/js/raw.js"
+      last_response.status.should eq 200
+      last_response.body.should match Regexp.escape('alert("I knew it!");')
     end
 
     it "includes transitive dependencies" do
