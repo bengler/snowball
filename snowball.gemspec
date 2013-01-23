@@ -18,7 +18,6 @@ Gem::Specification.new do |gem|
   
   gem.extensions << 'extconf.rb'
 
-  gem.add_dependency "rake"
   gem.add_development_dependency "sinatra"
   gem.add_development_dependency "haml"
   gem.add_development_dependency "rspec"
