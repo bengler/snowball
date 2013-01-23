@@ -41,7 +41,7 @@ module Sinatra
         if File.extname(bundle) != '.js' or config[:source].any? { |glob_str| File.fnmatch(glob_str, entryfile) }
           send_file entryfile
         else
-          raw = config[:raw].any? { |glob_str| File.fnmatch(glob_str, entryfile) }
+          raw = config[:raw].any? { |glob_str| File.fnmatch(glob_str, bundle) }
           content_type :js
           [200, ::Snowball::Roller.roll(*[entryfile, config.merge({:raw => raw})].compact)]
         end
