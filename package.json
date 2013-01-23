@@ -5,7 +5,8 @@
     "browserify": "latest",
     "jade": "latest",
     "jade-runtime": "git://github.com/bjoerge/jade-runtime",
-    "optimist": "latest"
+    "optimist": "latest",
+    "coffee-script": "~1.4.0"
   },
   "engines": {
     "node": "*"

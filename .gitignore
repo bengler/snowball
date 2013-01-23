@@ -17,5 +17,4 @@ test/tmp
 test/version_tmp
 tmp
 node_modules
-npm-shrinkwrap.json
 Makefile
