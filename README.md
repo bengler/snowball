@@ -8,6 +8,8 @@ _(__  )_  / / / /_/ /_ |/ |/ /_  /_/ / /_/ /_  / _  /
   Makes your front-end code roll
 ```
 
+[![Build Status](https://travis-ci.org/bengler/snowball.png?branch=master)](https://travis-ci.org/bengler/snowball)
+
 # What?
 Snowball enables you to:
 
