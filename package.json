@@ -2,7 +2,7 @@
   "name": "snowball",
   "version": "0.0.0",
   "dependencies": {
-    "browserify": "latest",
+    "browserify": "~1.17.2",
     "jade": "latest",
     "jade-runtime": "git://github.com/bjoerge/jade-runtime",
     "optimist": "latest",
