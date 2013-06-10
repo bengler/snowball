@@ -1,4 +1,5 @@
 require "snowball/roller"
+require 'pathname'
 
 module Sinatra
   module Snowball
@@ -33,7 +34,7 @@ module Sinatra
       self.set :snowball, config
       self.get "#{config[:http_path]}/*" do |bundle|
         begin
-          entryfile = Snowball.resolve_file(config, bundle)
+          entryfile = Pathname.new(Snowball.resolve_file(config, bundle)).relative_path_from(Pathname.pwd)
         rescue Errno::ENOENT => e
           halt 404, "File #{bundle} not found"
         end

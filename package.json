@@ -2,11 +2,13 @@
   "name": "snowball",
   "version": "0.0.0",
   "dependencies": {
-    "browserify": "~1.17.2",
-    "jade": "latest",
+    "browserify": "git://github.com/alexgorbatchev/node-browserify.git",
     "jade-runtime": "git://github.com/bjoerge/jade-runtime",
     "optimist": "latest",
-    "coffee-script": "~1.4.0"
+    "coffeeify": "~0.5.1",
+    "through": "~2.3.4",
+    "browser-resolve": "git://github.com/alexgorbatchev/node-browser-resolve.git",
+    "module-deps": "git://github.com/alexgorbatchev/module-deps.git"
   },
   "engines": {
     "node": "*"
