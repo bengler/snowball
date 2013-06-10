@@ -24,11 +24,9 @@ if (argv.help) {
 }
 
 
-b = browserify("./"+argv.entry);
+var b = browserify("./"+argv.entry);
 
 if (argv.entry.match(/\.coffee$/)) b.extension(".coffee");
-
-var through = require('through');
 
 b.transform("coffeeify");
 

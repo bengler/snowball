@@ -6,7 +6,6 @@
     "jade-runtime": "git://github.com/bjoerge/jade-runtime",
     "optimist": "latest",
     "coffeeify": "~0.5.1",
-    "through": "~2.3.4",
     "browser-resolve": "git://github.com/alexgorbatchev/node-browser-resolve.git",
     "module-deps": "git://github.com/alexgorbatchev/module-deps.git"
   },

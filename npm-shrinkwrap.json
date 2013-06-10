@@ -263,10 +263,6 @@
         }
       }
     },
-    "through": {
-      "version": "2.3.4",
-      "from": "through@~2.3.4"
-    },
     "browser-resolve": {
       "version": "1.0.1-alexgorbatchev",
       "from": "browser-resolve@git://github.com/alexgorbatchev/node-browser-resolve.git",
@@ -280,9 +276,13 @@
     },
     "module-deps": {
       "version": "0.7.1-alexgorbatchev",
-      "from": "module-deps@git://github.com/alexgorbatchev/module-deps.git",
+      "from": "git://github.com/alexgorbatchev/module-deps.git",
       "resolved": "git://github.com/alexgorbatchev/module-deps.git#d983e868ac6975c4530531019f6c2e53e659dd49",
       "dependencies": {
+        "through": {
+          "version": "2.3.4",
+          "from": "through@~2.3.2"
+        },
         "JSONStream": {
           "version": "0.4.4",
           "from": "JSONStream@~0.4.3",
