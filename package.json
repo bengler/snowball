@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "dependencies": {
     "browserify": "git://github.com/alexgorbatchev/node-browserify.git",
-    "jade-runtime": "git://github.com/bjoerge/jade-runtime",
     "optimist": "latest",
     "coffeeify": "~0.5.1",
     "browser-resolve": "git://github.com/alexgorbatchev/node-browser-resolve.git",

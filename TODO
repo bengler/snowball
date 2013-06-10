@@ -1,0 +1,6 @@
+- Update browserify
+- Separate configuration / Sinatra
+- Make jade ext optional (if require jade-ext or somthing)
+- Should it be sinatra-snowball?
+- Tests for sinatra config parameters
+- SourceMapping!

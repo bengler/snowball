@@ -219,11 +219,6 @@
         }
       }
     },
-    "jade-runtime": {
-      "version": "0.0.2",
-      "from": "jade-runtime@git://github.com/bjoerge/jade-runtime",
-      "resolved": "git://github.com/bjoerge/jade-runtime#75c5d795155068cd7a40563c89f1cbf69736fade"
-    },
     "optimist": {
       "version": "0.5.2",
       "from": "optimist@latest",
