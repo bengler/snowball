@@ -1,1 +1,0 @@
-console.log "Tartlet refers to a miniature tart."

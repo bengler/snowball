@@ -24,29 +24,10 @@ describe "SnowballApp" do
       last_response.body.should match Regexp.escape('alert("Hello world")')
     end
 
-    it "resolves a coffee-script entry file and serves it compiled" do
-      get "/js/some.js"
-      last_response.status.should eq 200
-      compiled = Regexp.escape("func = function(arg) { return alert(\"Arg is \" + arg); }; }".gsub(/\s+/, ""))
-      last_response.body.gsub(/\s+/, "").should match compiled
-    end
-
-    it "serves the coffee-script file as source if requested with .coffee as extension" do
-      get "/js/require.coffee"
-      last_response.status.should eq 200
-      last_response.body.should match Regexp.escape("test = ->")
-    end
-
     it "serves the javascript entry raw (not browserified) it matches the configured glob strings" do
-      get "/js/raw-2.js"
-      last_response.status.should eq 200
-      last_response.body.should match Regexp.escape('console.log("That is awesome!");')
-    end
-
-    it "serves the coffeescript entry raw (combiled, but not browserified) it matches the configured glob strings" do
       get "/js/raw.js"
       last_response.status.should eq 200
-      last_response.body.should match Regexp.escape('alert("I knew it!");')
+      last_response.body.should match Regexp.escape('console.log("That is awesome!");')
     end
 
     it "includes transitive dependencies" do
@@ -60,22 +41,45 @@ describe "SnowballApp" do
       last_response.status.should eq 404
     end
 
-    it "also forwards parse/syntax errors" do
+    it "also forwards errors" do
       get "/js/syntax-error.js"
       last_response.status.should eq 200
-      last_response.body.should match /throw new SyntaxError\(".*"\)/m
+      last_response.body.should match /throw new Error\(".*"\)/m
     end
 
     it "forwards parse/syntax errors even if the error occurs in a require()'d file" do
       get "/js/require-error.js"
       last_response.status.should eq 200
-      last_response.body.should match /throw new SyntaxError\(".*"\)/m
+      last_response.body.should match /throw new Error\(".*"\)/m
     end
 
     it "can specify a glob string of files that should be served raw" do
-      get "/js/food/steak.js"
+      get "/js/steak.js"
       last_response.status.should eq 200
       last_response.body.should match 'var steak = "raw"'
+    end
+
+    describe "extensions" do
+      describe "coffee-script support" do
+        it "resolves a coffee-script entry file and serves it compiled" do
+          get "/js/extensions/coffee-script/some.js"
+          last_response.status.should eq 200
+          compiled = Regexp.escape("func = function(arg) { return alert(\"Arg is \" + arg); }; }".gsub(/\s+/, ""))
+          last_response.body.gsub(/\s+/, "").should match compiled
+        end
+
+        it "serves the coffee-script file as source if requested with .coffee as extension" do
+          get "/js/extensions/coffee-script/require.coffee"
+          last_response.status.should eq 200
+          last_response.body.should match Regexp.escape("test = ->")
+        end
+
+        it "serves the coffee-script entry raw (compiled, but not browserified) it matches the configured glob strings" do
+          get "/js/extensions/coffee-script/raw.js"
+          last_response.status.should eq 200
+          last_response.body.should match Regexp.escape('alert("I knew it!");')
+        end
+      end
     end
   end
 

@@ -6,7 +6,7 @@ module Sinatra
     # Resolves a file relative to the source path
     def self.resolve_file(config, file)
       source_paths = config[:source_paths]
-      extensions = config[:extensions]
+      extensions = config[:extensions] || []
 
       source_paths.each do |source_path|
         try_file = File.expand_path(File.join(source_path, file))
@@ -29,9 +29,10 @@ module Sinatra
 
     def snowball(&block)
       config = {}
-      builder = ::Snowball::Config::Builder.new(config)
-      builder.send(:instance_eval, &block)
       self.set :snowball, config
+      ::Snowball::Config.new(config) do |c|
+        yield c
+      end
       self.get "#{config[:http_path]}/*" do |bundle|
         begin
           entryfile = Pathname.new(Snowball.resolve_file(config, bundle)).relative_path_from(Pathname.pwd)
