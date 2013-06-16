@@ -81,6 +81,28 @@ describe "SnowballApp" do
         end
       end
     end
+    describe "environment" do
+      describe "passing environment variables" do
+        it "replaces the specified environment variable in source code with its desired value" do
+          get "/js/extensions/coffee-script/some.js"
+          last_response.status.should eq 200
+          compiled = Regexp.escape("func = function(arg) { return alert(\"Arg is \" + arg); }; }".gsub(/\s+/, ""))
+          last_response.body.gsub(/\s+/, "").should match compiled
+        end
+
+        it "serves the coffee-script file as source if requested with .coffee as extension" do
+          get "/js/extensions/coffee-script/require.coffee"
+          last_response.status.should eq 200
+          last_response.body.should match Regexp.escape("test = ->")
+        end
+
+        it "serves the coffee-script entry raw (compiled, but not browserified) it matches the configured glob strings" do
+          get "/js/extensions/coffee-script/raw.js"
+          last_response.status.should eq 200
+          last_response.body.should match Regexp.escape('alert("I knew it!");')
+        end
+      end
+    end
   end
 
   describe "sinatra helpers" do

@@ -5,20 +5,18 @@ module Snowball
   class RollError < Exception; end
 
   class Roller
-    def self.roll(entry, opts)
+    def self.roll(file, environment)
       args = []
 
-      ignores = opts[:ignores].dup
-      ignores.unshift *%w(jsdom xmlhttprequest location navigator)
-      ignores.uniq!
+      args << environment.noparse.map { |node_module| "--noparse #{node_module}" }.join(" ")
+      args << environment.includes.map { |node_module| "--require #{node_module}" }.join(" ")
+      args << "--external" if environment.external?
+      args << environment.transforms.map { |transform| "--transform #{transform}" }.join(" ")
+      args << "--entry ./#{file}"
+      args << '-d' if environment.debug?
+      args << '--raw' if environment.raw?
 
-      args << opts[:includes].map { |node_module| "--require #{node_module}" }.join(" ")
-      args << "--prelude #{!!opts[:prelude]}"
-      args << opts[:transforms].map { |transform| "--transform #{transform}" }.join(" ")
-      args << "--entry ./#{entry}"
-      args << "--raw" if opts[:raw]
-
-      args += (opts[:env] || {}).map do |k,v|
+      args += environment.env.map do |k,v|
         "--env #{k}=#{v}"
       end
 

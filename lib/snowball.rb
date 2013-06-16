@@ -2,7 +2,7 @@ require "bundler"
 Bundler.require
 
 require "snowball/version"
-require "snowball/config"
+require "snowball/environment"
 require "snowball/sinatra"
 require "snowball/roller"
 

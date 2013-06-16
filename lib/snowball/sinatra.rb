@@ -1,58 +1,37 @@
+require "snowball/file_resolver"
 require "snowball/roller"
 require 'pathname'
 
 module Sinatra
   module Snowball
-    # Resolves a file relative to the source path
-    def self.resolve_file(config, file)
-      source_paths = config[:source_paths]
-      extensions = config[:extensions] || []
-
-      source_paths.each do |source_path|
-        try_file = File.expand_path(File.join(source_path, file))
-
-        # Skip if file is not descendant of the current source path
-        next unless try_file =~ /^#{source_path}/
-
-        return try_file if File.exists?(try_file)
-        extensions.each do |ext|
-          try_file = File.join(source_path, File.dirname(file), "#{File.basename(file, File.extname(file))}.#{ext}")
-          return try_file if File.exists?(try_file)
-        end
-      end
-      raise Errno::ENOENT.new(file)
-    end
-
     def self.registered(app)
       app.helpers(Sinatra::Snowball::Helpers)
     end
 
     def snowball(&block)
-      config = {}
-      self.set :snowball, config
-      ::Snowball::Config.new(config) do |c|
-        yield c
-      end
-      self.get "#{config[:http_path]}/*" do |bundle|
+      env = ::Snowball::Environment.new(&block)
+      self.set :snowball, env
+
+      self.get "#{env.http_path}/*" do |file|
+        resolver = ::Snowball::FileResolver.new(env)
         begin
-          entryfile = Pathname.new(Snowball.resolve_file(config, bundle)).relative_path_from(Pathname.pwd)
+          entryfile = resolver.resolve(file)
         rescue Errno::ENOENT => e
-          halt 404, "File #{bundle} not found"
+          halt 404, "File #{file} not found: #{e}"
         end
 
-        if File.extname(bundle) != '.js' or config[:source].any? { |glob_str| File.fnmatch(glob_str, entryfile) }
-          send_file entryfile
+        if File.extname(file) != '.js' or env.source?
+          send_file file
         else
-          raw = config[:raw].any? { |glob_str| File.fnmatch(glob_str, bundle) }
           content_type :js
-          [200, ::Snowball::Roller.roll(*[entryfile, config.merge({:raw => raw})].compact)]
+          [200, ::Snowball::Roller.roll(entryfile, env.for(file))]
         end
       end
     end
 
     module Helpers
       def javascript_path(file)
-        "#{self.settings.snowball[:http_path]}/#{file}.js"
+        "#{self.settings.snowball.http_path}/#{file}.js"
       end
 
       def javascript_tag(file, opts={})

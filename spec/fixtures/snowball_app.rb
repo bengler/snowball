@@ -1,14 +1,9 @@
 class SnowballApp < Sinatra::Base
   register Sinatra::Snowball
-  snowball do |s|
-    s.http_path "/js"
-    s.source_path "spec/fixtures/js"
-    s.source_path "spec/fixtures/js"
-    s.source_path "spec/fixtures/js/other-source"
-    s.raw "js/raw-2.js"
-    s.raw "js/raw.coffee"
-    s.transforms [:jade, :'coffee-script']
-    s.extensions [:jade, :'coffee']
+  snowball do
+    puts self
+    http_path "/js"
+    source_path "spec/fixtures/js"
   end
 
   get "/javascript_tag" do

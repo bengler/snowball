@@ -17,14 +17,22 @@ var argv = optimist
       alias : 'r',
       desc : 'Just compile entry file, without using browserify.'
     })
+    .option('debug', {
+      alias : 'd',
+      desc : 'Enable source maps that allow you to debug your files separately.\n'
+    })
     .option('transform', {
         alias : 't',
         desc : 'Source transforms to load (currently supported: jade, coffee-script)'
     })
     .option('env', {
-        type : 'string',
         desc : 'Pass one or more environment variables to the "process" object in browserified code\n'+
                 'Example: --env NODE_ENV=development --env FOO=bar'
+    })
+    .option('noparse', {
+        desc : 'Don\'t parse FILE at all. This will make bundling much, much faster for giant\n'+
+                'libs like jquery or threejs.\n'+
+                'Example: --noparse jquery --noparse threejs'
     }).argv;
 
 if (argv.help) {
@@ -52,11 +60,15 @@ if (argv.raw) {
   return;
 }
 
+var opts = {};
+if (argv.noparse) {
+  opts.noParse = argv.noparse;
+}
 
-var b = browserify();
+var b = browserify(opts);
 
 b.on('error', function(e) {
-  process.stdout.write('throw new Error('+ JSON.stringify(e.toString()) +')');
+  process.stdout.write('throw new Error('+ JSON.stringify(e.toString()) +');');
   process.exit(0)
 });
 
@@ -68,11 +80,29 @@ b.on('error', function(e) {
   b.add(entry);
 });
 
-var bundle = b.bundle();
+if (argv.env) {
+  var envify = require('envify/custom');
+  // Parse argv.env properly
+  // turns argv.env strings like ['FOO=bar', 'BAZ=qux', ...] into an object of { FOO: 'bar', BAZ:'qux' }
+  var util = require("util");
+  var vars = (util.isArray(argv.env) ? argv.env : [argv.env]).reduce(function(env, str) {
+    var parts = str.split("=");
+    env[parts[0]] = parts[1];
+    return env;
+  }, {});
+  b.transform(envify(vars));
+}
+
+var bundleOpts = {};
+if (argv.debug) {
+  bundleOpts.debug = argv.debug;
+}
+
+var bundle = b.bundle(bundleOpts);
 
 bundle.on('error', function(e) {
-  process.stdout.write('throw new Error('+ JSON.stringify(e.toString()) +')');
-  process.exit(0)
+  process.stdout.write('throw new Error('+ JSON.stringify(e.toString()) +');');
+  //process.exit(0)
 });
 
 var buf = "";

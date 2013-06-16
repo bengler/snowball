@@ -1,5 +1,6 @@
 var jade = require('jade');
 var through = require('through');
+var path = require('path');
 
 function isJade(file) {
   return /\.jade$/.test(file);
@@ -12,7 +13,7 @@ module.exports = function register(b, opts) {
     return jade.compile(data, {
       filename: file,
       client: true,
-      compileDebug: true
+      compileDebug: opts.debug
     }).toString();
   }
 
@@ -26,12 +27,22 @@ module.exports = function register(b, opts) {
     }
 
     function end() {
-      var src;
+      var src, compiled;
       try {
-        src = compile(file, data);
+        compiled = compile(file, data);
       } catch (error) {
         this.emit('error', error);
       }
+      var toJsId = require("text-to-js-identifier");
+      var functionName = toJsId(path.basename(file, path.extname(file)));
+      src = ''+
+        'var jade = require("jade-runtime").runtime;' +
+        'module.exports = function template_'+functionName+'_jade(locals, attrs, escape, rethrow, merge) {' +
+        '  var locals = require("jade-runtime").globals.merge(locals);' +
+        '   console.log("locals", locals);'+
+        '  return ('+compiled+")(locals, attrs, escape, rethrow, merge);" +
+        '}';
+
       this.queue(src);
       this.queue(null);
     }
