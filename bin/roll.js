@@ -39,6 +39,12 @@ if (argv.help) {
   return optimist.showHelp()
 }
 
+if (!fs.existsSync("./package.json")) {
+  process.stdout.write('throw new Error("No package.json in current working directory. Create it with npm init.");');
+  process.exit(0);
+}
+
+
 if (argv.raw) {
   var compilers = {
     coffee: function (data) {
