@@ -34,12 +34,16 @@ describe "Snowball::Environment" do
     it "should allow querying boolean by ?" do
       env = Snowball::Environment.new do
         debug true
+        match "child.js" do
+          debug false
+        end
       end
       env.debug?.should be_true
       env.debug.should be_true
+      env.for("child.js").debug?.should be_false
     end
     it "should raise an exception if querying for a boolean that is not really a boolean" do
-      -> { Snowball::Environment.new.ignores? }.should raise_error NoMethodError
+      -> { Snowball::Environment.new.noparse? }.should raise_error NoMethodError
     end
   end
 

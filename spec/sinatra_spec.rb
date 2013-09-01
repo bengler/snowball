@@ -24,10 +24,10 @@ describe "SnowballApp" do
       last_response.body.should match Regexp.escape('alert("Hello world")')
     end
 
-    it "serves the javascript entry raw (not browserified) it matches the configured glob strings" do
+    it "serves the javascript entry raw (not browserified) if it matches the configured glob strings" do
       get "/js/raw.js"
       last_response.status.should eq 200
-      last_response.body.should match Regexp.escape('console.log("That is awesome!");')
+      last_response.body.should match Regexp.escape('console.log("That is not well done!");')
     end
 
     it "includes transitive dependencies" do
@@ -53,12 +53,6 @@ describe "SnowballApp" do
       last_response.body.should match /throw new Error\(".*"\)/m
     end
 
-    it "can specify a glob string of files that should be served raw" do
-      get "/js/steak.js"
-      last_response.status.should eq 200
-      last_response.body.should match 'var steak = "raw"'
-    end
-
     describe "extensions" do
       describe "coffee-script support" do
         it "resolves a coffee-script entry file and serves it compiled" do
@@ -77,7 +71,9 @@ describe "SnowballApp" do
         it "serves the coffee-script entry raw (compiled, but not browserified) it matches the configured glob strings" do
           get "/js/extensions/coffee-script/raw.js"
           last_response.status.should eq 200
-          last_response.body.should match Regexp.escape('alert("I knew it!");')
+          last_response.body.should include 'function() {'
+          last_response.body.should include 'alert("I knew it!")'
+          last_response.body.should include '.call(this)'
         end
       end
     end

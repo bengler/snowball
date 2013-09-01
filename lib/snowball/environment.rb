@@ -1,14 +1,24 @@
 module Snowball
+# Snowball Environment
+# Possible options are:
+#   source_path:  Defines the path to look for bundle files in
+#   http_path:    Defines the http path to serve bundles from
+#   extensions:   An array of extensions to use when resolving dependencies (.js and .json are always supported)
+#   transforms:   Use these transform modules
+#   debug:        Pass the debug flag to browserify. Will include source map (defaults to env['RACK_ENV'] == development)
+#   raw:          If set to true, the files in the environment will be compiled/transformed, but not bundled. Useful if
+#                 you have a source file with no require() statements or a file that is loaded dynamically after
+#                 require() is defined
+#
   class Environment
     class InvalidOptionError < StandardError; end
     DEFAULTS = {
         source_path: -> { nil },
         http_path: -> { nil },
-        extensions: -> { [:js] },
-        debug: -> { false },
+        extensions: -> { [] },
         transforms: -> { [] },
+        debug: -> { ENV['RACK_ENV'] == 'development' },
         raw: -> { false },
-        source: -> { false },
         includes: -> { [] },
         noparse: -> { [] },
         env: -> { {} },
@@ -61,13 +71,20 @@ module Snowball
     end
 
     def get(option)
-      return @config[option] if @config.has_key?(option)
+      return @config[option] if has?(option)
       return @parent.get(option) if @parent
       nil
     end
 
+    def has?(option)
+      return true if @config.has_key?(option)
+      return @parent.has?(option) if @parent
+      false
+    end
+
     def get_or_default(option)
-      get(option) || DEFAULTS[option].call
+      raise InvalidOptionError, "No such configuration option #{option}" unless OPTIONS.include?(option)
+      (has?(option) && get(option)) || DEFAULTS[option].call
     end
 
     def method_missing(method_name, *args, &block)
@@ -76,7 +93,7 @@ module Snowball
       option_str, suffix = method_name_as_str.match(/(\w+)([=\?])?$/).captures
       option = option_str.to_sym
 
-      if args.any? || suffix == '='
+      if !args.empty? || suffix == '='
         set(option, *args)
       elsif suffix == '?'
         val = get_or_default(option)

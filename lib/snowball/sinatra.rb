@@ -19,9 +19,8 @@ module Sinatra
         rescue Errno::ENOENT => e
           halt 404, "File #{file} not found: #{e}"
         end
-
-        if File.extname(file) != '.js' or env.source?
-          send_file file
+        if File.extname(file) != '.js'
+          send_file entryfile
         else
           content_type :js
           [200, ::Snowball::Roller.roll(entryfile, env.for(file))]
