@@ -67,53 +67,39 @@ And then execute:
 
     $ bundle
 
-## Usage
+## Usage example
 
-# Define a bundle
-
-Defining a bundle is as easy as creating a javascript file and require() your dependencies. Then you just 
-add the containing folder to the Snowball search path, configure the endpoint you'd like to
-serve bundles from, and you are good to go.
-
-I.e. given the follwing project layout:
-
-```
-myapp
-  |- js
-      |- all.js
-```
-```js
-          var $ = require("jquery");
-          var Backbone = require("backbone");
-          var myJsApp = require("myjsapp").App;
-          myJsApp.init()
-```
-```
-      |- minimal.js
-```
-```js
-          var $ = require("jquery");
-          var myTinyVersion = require("tinyapp").TinyApp;
-          myTinyVersion.init();
-```
-```
-  |- my_app.rb
-```
 ```ruby
     class MyApp extends Sinatra::Base
       register Sinatra::Snowball
       snowball do
-        set_serve_path "/bundles"
-        add_load_path "js"
-      end
-      # (...)
+        # Serve bundles from this local folder
+        source_path "spec/fixtures/js"
+
+        # Map the source path over to this public http path
+        http_path "/js"
+
+        # Support coffeescript
+        transforms ['coffee-script']
+
+        # Support the `coffee` file extension so we can do require("./foo") to require ./foo.coffee 
+        extensions ['coffee']
+
+        # Don't parse the jquery source for require() so we avoid things like jsdom getting bundled with our package
+        noparse [:jquery]
+
+        # Specific configuration options when the *requested* filename matches foo.js
+        match 'foo.js' do
+          # Serve this file as is, without browserify-ing it 
+          raw true
+        end
     end
 ```
 
 Now your bundles are available from /bundles/all.js and /bundles/minimal.js and all dependencies are automatically
 resolved and concatenated into that file
 
-# Precompiling bundles pre-deploy
+# TODO (OUTDATED): Precompiling bundles pre-deploy
 
 Example rake task that takes a an entry file, concatenates and compresses it to a target file.
 
