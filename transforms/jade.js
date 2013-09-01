@@ -39,7 +39,6 @@ module.exports = function register(b, opts) {
         'var jade = require("jade-runtime").runtime;' +
         'module.exports = function template_'+functionName+'_jade(locals, attrs, escape, rethrow, merge) {' +
         '  var locals = require("jade-runtime").globals.merge(locals);' +
-        '   console.log("locals", locals);'+
         '  return ('+compiled+")(locals, attrs, escape, rethrow, merge);" +
         '}';
 
