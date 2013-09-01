@@ -4,7 +4,7 @@ var browserify = require("browserify"),
     optimist = require('optimist');
 
 var argv = optimist
-    .usage('Usage: browserify [entry files] {OPTIONS}')
+    .usage('Usage: roll.js [entry files] {OPTIONS}')
     .wrap(80)
     .option('help', {
       desc : 'Show this help'
