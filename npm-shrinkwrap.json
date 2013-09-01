@@ -4,7 +4,7 @@
   "dependencies": {
     "optimist": {
       "version": "0.6.0",
-      "from": "optimist@0.6.0",
+      "from": "optimist@latest",
       "dependencies": {
         "wordwrap": {
           "version": "0.0.2",
@@ -18,7 +18,7 @@
     },
     "coffeeify": {
       "version": "0.5.1",
-      "from": "coffeeify@latest",
+      "from": "coffeeify@~0.5.1",
       "dependencies": {
         "through": {
           "version": "2.2.7",
@@ -32,16 +32,15 @@
     },
     "process": {
       "version": "0.5.1",
-      "from": "process@0.5.1",
-      "resolved": "http://registry.npmjs.org/process/-/process-0.5.1.tgz"
+      "from": "process@~0.5.1"
     },
     "through": {
       "version": "2.3.4",
-      "from": "through@2.3.4"
+      "from": "through@~2.3.4"
     },
     "browserify": {
       "version": "2.29.0",
-      "from": "git://github.com/bjoerge/node-browserify",
+      "from": "browserify@git://github.com/bjoerge/node-browserify",
       "resolved": "git://github.com/bjoerge/node-browserify#00ea424bc71c16ae2923cb2952d2cb5b9569d965",
       "dependencies": {
         "module-deps": {
@@ -65,10 +64,6 @@
                   "version": "0.0.15",
                   "from": "escodegen@0.0.15",
                   "dependencies": {
-                    "esprima": {
-                      "version": "1.0.4",
-                      "from": "esprima@1.0.4"
-                    },
                     "source-map": {
                       "version": "0.1.29",
                       "from": "source-map@>= 0.1.2",
@@ -243,7 +238,7 @@
           "dependencies": {
             "resolve": {
               "version": "0.3.1",
-              "from": "resolve@0.3.x"
+              "from": "resolve@~0.3.0"
             },
             "punycode": {
               "version": "1.2.3",
@@ -377,8 +372,7 @@
     },
     "jade": {
       "version": "0.31.2",
-      "from": "jade@0.31.2",
-      "resolved": "http://registry.npmjs.org/jade/-/jade-0.31.2.tgz",
+      "from": "jade@~0.31.2",
       "dependencies": {
         "commander": {
           "version": "1.1.1",
@@ -387,34 +381,31 @@
           "dependencies": {
             "keypress": {
               "version": "0.1.0",
-              "from": "keypress@0.1.0",
-              "resolved": "http://registry.npmjs.org/keypress/-/keypress-0.1.0.tgz"
+              "from": "keypress@0.1.x"
             }
           }
         },
         "mkdirp": {
           "version": "0.3.5",
-          "from": "mkdirp@0.3.5"
+          "from": "mkdirp@0.3.x"
         },
         "transformers": {
           "version": "2.0.1",
           "from": "transformers@2.0.1",
-          "resolved": "http://registry.npmjs.org/transformers/-/transformers-2.0.1.tgz",
           "dependencies": {
             "promise": {
               "version": "2.0.0",
-              "from": "promise@2.0.0",
+              "from": "promise@~2.0",
               "dependencies": {
                 "is-promise": {
                   "version": "1.0.0",
-                  "from": "is-promise@1.0.0"
+                  "from": "is-promise@~1"
                 }
               }
             },
             "css": {
               "version": "1.0.8",
-              "from": "css@1.0.8",
-              "resolved": "http://registry.npmjs.org/css/-/css-1.0.8.tgz",
+              "from": "css@~1.0.8",
               "dependencies": {
                 "css-parse": {
                   "version": "1.0.4",
@@ -428,12 +419,11 @@
             },
             "uglify-js": {
               "version": "2.2.5",
-              "from": "uglify-js@2.2.5",
+              "from": "uglify-js@~2.2.5",
               "dependencies": {
                 "source-map": {
                   "version": "0.1.29",
-                  "from": "source-map@0.1.29",
-                  "resolved": "http://registry.npmjs.org/source-map/-/source-map-0.1.29.tgz",
+                  "from": "source-map@~0.1.7",
                   "dependencies": {
                     "amdefine": {
                       "version": "0.0.8",
@@ -443,11 +433,11 @@
                 },
                 "optimist": {
                   "version": "0.3.7",
-                  "from": "optimist@0.3.7",
+                  "from": "optimist@~0.3.5",
                   "dependencies": {
                     "wordwrap": {
                       "version": "0.0.2",
-                      "from": "wordwrap@0.0.2"
+                      "from": "wordwrap@~0.0.2"
                     }
                   }
                 }
@@ -457,17 +447,15 @@
         },
         "character-parser": {
           "version": "1.0.2",
-          "from": "character-parser@1.0.2",
-          "resolved": "http://registry.npmjs.org/character-parser/-/character-parser-1.0.2.tgz"
+          "from": "character-parser@1.0.2"
         },
         "monocle": {
           "version": "0.1.48",
           "from": "monocle@0.1.48",
-          "resolved": "http://registry.npmjs.org/monocle/-/monocle-0.1.48.tgz",
           "dependencies": {
             "readdirp": {
               "version": "0.2.5",
-              "from": "readdirp@0.2.5",
+              "from": "readdirp@~0.2.3",
               "dependencies": {
                 "minimatch": {
                   "version": "0.2.12",
@@ -490,16 +478,14 @@
         "with": {
           "version": "1.0.4",
           "from": "with@1.0.4",
-          "resolved": "http://registry.npmjs.org/with/-/with-1.0.4.tgz",
           "dependencies": {
             "lexical-scope": {
               "version": "0.0.12",
               "from": "lexical-scope@0.0.12",
-              "resolved": "http://registry.npmjs.org/lexical-scope/-/lexical-scope-0.0.12.tgz",
               "dependencies": {
                 "astw": {
                   "version": "0.0.0",
-                  "from": "astw@0.0.0",
+                  "from": "astw@~0.0.0",
                   "dependencies": {
                     "esprima": {
                       "version": "1.0.2",
@@ -515,13 +501,11 @@
     },
     "coffee-script": {
       "version": "1.6.3",
-      "from": "coffee-script@1.6.3",
-      "resolved": "http://registry.npmjs.org/coffee-script/-/coffee-script-1.6.3.tgz"
+      "from": "coffee-script@~1.6.3"
     },
     "envify": {
       "version": "0.1.0",
-      "from": "envify@latest",
-      "resolved": "http://registry.npmjs.org/envify/-/envify-0.1.0.tgz",
+      "from": "envify@~0.1.0",
       "dependencies": {
         "falafel": {
           "version": "0.2.1",
@@ -538,21 +522,21 @@
     },
     "caching-coffeeify": {
       "version": "0.2.0",
-      "from": "caching-coffeeify@latest",
+      "from": "caching-coffeeify@~0.2.0",
       "dependencies": {
         "through": {
           "version": "2.2.7",
-          "from": "through@~2.2.7"
+          "from": "through@~2.2.0"
         },
         "convert-source-map": {
           "version": "0.2.6",
-          "from": "convert-source-map@~0.2.5"
+          "from": "convert-source-map@~0.2.3"
         }
       }
     },
     "text-to-js-identifier": {
       "version": "0.0.4",
-      "from": "text-to-js-identifier@"
+      "from": "text-to-js-identifier@0.0.4"
     }
   }
 }
