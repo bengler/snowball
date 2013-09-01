@@ -15,7 +15,7 @@ Snowball enables you to:
 
   - Use npm for dependency management
   - Run your front-end javascript on a server with ease (i.e. running tests on a CI server)
-  - Serve pre-defined bundles through Sinatra
+  - Serve pre-defined bundles through Sinatra in development
   - Compile and minifiy all your JavaScript in a pre-deploy step
   - Write your front-end code in CoffeeScript
   - Serve pre-compiled Jade templates for your front-end
