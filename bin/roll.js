@@ -61,6 +61,7 @@ if (argv.raw) {
 }
 
 var opts = {};
+opts.cache = {};
 if (argv.noparse) {
   opts.noParse = argv.noparse;
 }
@@ -70,6 +71,26 @@ var b = browserify(opts);
 b.on('error', function(e) {
   process.stdout.write('throw new Error('+ JSON.stringify(e.toString()) +');');
   process.exit(0)
+});
+
+var cache = {};
+// Todo: maybe use a hash of opts/argv in the cache file path
+var cacheFilePath = "./.browserify-cache";
+if (fs.existsSync(cacheFilePath)) {
+  cache = JSON.parse(fs.readFileSync(cacheFilePath));
+  // Reject cache keys where mtime has changed
+  Object.keys(cache).forEach(function(key) {
+    fs.stat(key, function(err, stats) {
+      if (err || stats.mtime.getTime() != cache[key].lastUpdated) {
+       delete cache[key]; 
+      }
+    })
+  });
+}
+
+b.on('dep', function(row) {
+  row.lastUpdated = fs.statSync(row.id).mtime.getTime();
+  cache[row.id] = row;
 });
 
 ([].concat(argv.transform || [])).forEach(function(transform) {
@@ -94,6 +115,8 @@ if (argv.env) {
 }
 
 var bundleOpts = {};
+bundleOpts.cache = cache;
+
 if (argv.debug) {
   bundleOpts.debug = argv.debug;
 }
@@ -114,3 +137,7 @@ bundle.on('end', function() {
   process.stdout.write(buf)
 });
 
+bundle.on('end', function() {
+  // Write cache to disk
+  fs.writeFile(cacheFilePath, JSON.stringify(cache));
+});
