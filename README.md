@@ -73,8 +73,8 @@ And then execute:
     class MyApp extends Sinatra::Base
       register Sinatra::Snowball
       snowball do
-        # Serve bundles from this local folder
-        source_path "spec/fixtures/js"
+        # Serve bundles from this local folder (relative to project root)
+        source_path "./js"
 
         # Map the source path over to this public http path
         http_path "/js"
