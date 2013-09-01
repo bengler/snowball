@@ -1,17 +1,18 @@
 {
   "name": "snowball",
   "version": "0.0.0",
+  "private": true,
   "dependencies": {
     "optimist": "latest",
     "coffeeify": "~0.5.1",
     "process": "~0.5.1",
     "through": "~2.3.4",
-    "browser-resolve": "git://github.com/alexgorbatchev/node-browser-resolve.git",
-    "module-deps": "git://github.com/alexgorbatchev/module-deps.git",
-    "browserify": "git://github.com/alexgorbatchev/node-browserify.git",
+    "browserify": "git://github.com/bjoerge/node-browserify",
     "jade": "~0.31.2",
     "coffee-script": "~1.6.3",
-    "envify": "0.0.1"
+    "envify": "~0.1.0",
+    "caching-coffeeify": "~0.2.0",
+    "text-to-js-identifier": "0.0.4"
   },
   "engines": {
     "node": "*"
