@@ -98,9 +98,13 @@ b.on('dep', function(row) {
   row.lastUpdated = fs.statSync(row.id).mtime.getTime();
   cache[row.id] = row;
 });
+var bundleOpts = {};
+
+bundleOpts.cache = cache;
+bundleOpts.debug = !!argv.debug;
 
 ([].concat(argv.transform || [])).forEach(function(transform) {
-  require("../transforms/"+transform)(b);
+  require("../transforms/"+transform)(b, bundleOpts);
 });
 
 (argv._.concat(argv.entry || [])).forEach(function (entry) {
@@ -118,13 +122,6 @@ if (argv.env) {
     return env;
   }, {});
   b.transform(envify(vars));
-}
-
-var bundleOpts = {};
-bundleOpts.cache = cache;
-
-if (argv.debug) {
-  bundleOpts.debug = argv.debug;
 }
 
 var bundle = b.bundle(bundleOpts);
