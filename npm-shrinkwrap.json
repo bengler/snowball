@@ -504,8 +504,9 @@
       "from": "coffee-script@~1.6.3"
     },
     "envify": {
-      "version": "0.1.0",
-      "from": "envify@~0.1.0",
+      "version": "0.2.0",
+      "from": "envify@latest",
+      "resolved": "http://registry.npmjs.org/envify/-/envify-0.2.0.tgz",
       "dependencies": {
         "falafel": {
           "version": "0.2.1",

@@ -10,7 +10,7 @@
     "browserify": "git://github.com/bjoerge/node-browserify",
     "jade": "~0.31.2",
     "coffee-script": "~1.6.3",
-    "envify": "~0.1.0",
+    "envify": "~0.2.0",
     "caching-coffeeify": "~0.2.0",
     "text-to-js-identifier": "0.0.4"
   },
