@@ -8,7 +8,6 @@ function isJade(file) {
 
 module.exports = function register(b, opts) {
   opts || (opts = {});
-  if (!opts.hasOwnProperty('compileDebug')) opts.compileDebug = true;
   function compile(file, data) {
     return jade.compile(data, {
       filename: file,
@@ -37,9 +36,9 @@ module.exports = function register(b, opts) {
       var functionName = toJsId(path.basename(file, path.extname(file)));
       src = ''+
         'var jade = require("jade-runtime").runtime;' +
-        'module.exports = function template_'+functionName+'_jade(locals, attrs, escape, rethrow, merge) {' +
+        'module.exports = function template_'+functionName+'_jade(locals) {' +
         '  var locals = require("jade-runtime").globals.merge(locals);' +
-        '  return ('+compiled+")(locals, attrs, escape, rethrow, merge);" +
+        '  return ('+compiled+")(locals, jade.attrs, jade.escape, jade.rethrow, jade.merge);" +
         '}';
 
       this.queue(src);
