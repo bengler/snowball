@@ -71,7 +71,7 @@ module Snowball
     end
 
     def get(option)
-      return @config[option] if has?(option)
+      return @config[option] if @config.has_key?(option)
       return @parent.get(option) if @parent
       nil
     end
@@ -84,7 +84,7 @@ module Snowball
 
     def get_or_default(option)
       raise InvalidOptionError, "No such configuration option #{option}" unless OPTIONS.include?(option)
-      (has?(option) && get(option)) || DEFAULTS[option].call
+      has?(option) ? get(option) : DEFAULTS[option].call
     end
 
     def method_missing(method_name, *args, &block)
