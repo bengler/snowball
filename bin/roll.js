@@ -79,7 +79,6 @@ if (!fs.existsSync("./package.json")) {
 }
 
 var transforms = [].concat(argv.transform).filter(Boolean);
-var extensions = ([].concat(argv.extension).filter(Boolean))
 
 if (argv.raw) {
   // Don't run it through browserify itself, only run it through registered transforms
@@ -120,7 +119,9 @@ if (argv.raw) {
   });
 
 } else {
-  var opts = {};
+  var opts = {
+    extensions: ([].concat(argv.extension).filter(Boolean))
+  };
   opts.cache = {};
 
   if (argv.noparse) {
@@ -164,10 +165,6 @@ if (argv.raw) {
   }
 
   bundleOpts.debug = !!argv.debug;
-
-  extensions.forEach(function (e) {
-    b.extension(e)
-  });
 
   transforms.forEach(b.transform.bind(b));
   entries.forEach(b.add.bind(b));

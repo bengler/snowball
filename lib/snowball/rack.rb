@@ -77,18 +77,16 @@ module Snowball
       end
 
       source_map_url = "#{path}.map"
-      begin
-        # We got this far, generate the bundle
-        result = ::Snowball::Roller.roll(entry_file, environment.for(path), {source_map_url: source_map_url})
-      rescue Snowball::RollError => e
-        result = {'source_map' => "throw new Error(#{JSON.generate(e, quirks_mode: true)})"}        
-      end
+      # We got this far, now generate the bundle
+      result = ::Snowball::Roller.roll(entry_file, environment.for(path), {source_map_url: source_map_url})
       if return_map
-        [200, {"Content-Type" => "application/json"}, [result['source_map']]]
+        [200, {"Content-Type" => "application/json"}, [result['map']]]
       else
+        # Temporary fix for https://github.com/substack/node-browserify/issues/496
+        result['code'].gsub!(/\n;$/, '')
+
         # Return a 200 with the entry_file contents
-        #result['code'].gsub!(/\n;$/, '')
-        [200, headers(env, entry_file, result['code']).merge("X-SourceMap" => source_map_url), [result['source_map']]]
+        [200, headers(env, entry_file, result['code']).merge("X-SourceMap" => source_map_url), [result['code']]]
       end
     end
 
