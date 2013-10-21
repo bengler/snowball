@@ -1,9 +1,9 @@
 {
   "name": "test-app",
-  "version": "0.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "Snowball demo app",
   "dependencies": {
-    "bloat": "~1.0",
+    "bloat": "1.0.0",
     "coffeeify": "~0.5.2"
   }
 }

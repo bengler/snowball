@@ -1,0 +1,32 @@
+{
+  "name": "test-app",
+  "version": "0.0.1",
+  "dependencies": {
+    "bloat": {
+      "version": "1.0.0",
+      "dependencies": {
+        "foo": {
+          "version": "1.0.0"
+        }
+      }
+    },
+    "coffeeify": {
+      "version": "0.5.2",
+      "from": "coffeeify@~0.5.2",
+      "dependencies": {
+        "coffee-script": {
+          "version": "1.6.3",
+          "from": "coffee-script@~1.6.2"
+        },
+        "through": {
+          "version": "2.3.4",
+          "from": "through@~2.3.4"
+        },
+        "convert-source-map": {
+          "version": "0.2.6",
+          "from": "convert-source-map@~0.2.3"
+        }
+      }
+    }
+  }
+}
