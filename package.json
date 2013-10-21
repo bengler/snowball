@@ -8,7 +8,8 @@
     "through": "~2.3.4",
     "browserify": "~2.34.3",
     "stream-combiner": "0.0.2",
-    "concat-stream": "~1.0.1"
+    "concat-stream": "~1.0.1",
+    "optimist": "~0.6.0"
   },
   "engines": {
     "node": "0.10.*"
