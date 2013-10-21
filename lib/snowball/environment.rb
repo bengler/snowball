@@ -1,28 +1,36 @@
 module Snowball
 # Snowball Environment
 # Possible options are:
-#   source_path:  Defines the path to look for bundle files in
+#   root:         [optional] Sets the root path of the project. This is typically where package.json is located.
+#                 If not specified, the current working directory will be used instead
+#   source_path:  Defines the path to look for bundle files in (relative from root)
 #   http_path:    Defines the http path to serve bundles from
 #   extensions:   An array of extensions to use when resolving dependencies (.js and .json are always supported)
 #   transforms:   Use these transform modules
+#   jserr:        Forward errors as javascript throw statements. Useful during development to let bundle errors appear in 
+#                 developer tools console instead of having a 500 error when loading javascript
 #   debug:        Pass the debug flag to browserify. Will include source map (defaults to env['RACK_ENV'] == development)
 #   raw:          If set to true, the files in the environment will be compiled/transformed, but not bundled. Useful if
 #                 you have a source file with no require() statements or a file that is loaded dynamically after
 #                 require() is defined
 #
   class Environment
-    class InvalidOptionError < StandardError; end
     DEFAULTS = {
+        root: -> { nil },
         source_path: -> { nil },
         http_path: -> { nil },
         extensions: -> { [] },
         transforms: -> { [] },
         debug: -> { ENV['RACK_ENV'] == 'development' },
+        externalize_source_map: -> { false },
         raw: -> { false },
         includes: -> { [] },
         noparse: -> { [] },
+        jserr: -> { true },
         env: -> { {} },
         external: -> { false },
+        cache: -> { false },
+        fingerprint: -> { nil },
     }
     OPTIONS = DEFAULTS.keys
 
@@ -87,13 +95,19 @@ module Snowball
       has?(option) ? get(option) : DEFAULTS[option].call
     end
 
+    def respond_to?(method_name)
+      OPTIONS.include?(method_name)
+    end
+
     def method_missing(method_name, *args, &block)
 
       method_name_as_str = method_name.to_s
       option_str, suffix = method_name_as_str.match(/(\w+)([=\?])?$/).captures
       option = option_str.to_sym
 
-      if !args.empty? || suffix == '='
+      if block_given?
+        set(option, block)
+      elsif !args.empty? || suffix == '='
         set(option, *args)
       elsif suffix == '?'
         val = get_or_default(option)

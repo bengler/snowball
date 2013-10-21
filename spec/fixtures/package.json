@@ -1,0 +1,9 @@
+{
+  "name": "test-app",
+  "version": "0.0.0",
+  "description": "",
+  "dependencies": {
+    "bloat": "~1.0",
+    "coffeeify": "~0.5.2"
+  }
+}

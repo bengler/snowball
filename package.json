@@ -3,19 +3,15 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "optimist": "latest",
-    "coffeeify": "~0.5.1",
-    "process": "~0.5.1",
+    "mold-source-map": "~0.2.0",
+    "async": "~0.2.9",
     "through": "~2.3.4",
-    "browserify": "git://github.com/bjoerge/node-browserify",
-    "jade": "~0.31.2",
-    "coffee-script": "~1.6.3",
-    "envify": "~0.2.0",
-    "caching-coffeeify": "~0.2.0",
-    "text-to-js-identifier": "0.0.4"
+    "browserify": "~2.34.3",
+    "stream-combiner": "0.0.2",
+    "concat-stream": "~1.0.1"
   },
   "engines": {
-    "node": "*"
+    "node": "0.10.*"
   },
   "devDependencies": {},
   "optionalDependencies": {}

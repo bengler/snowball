@@ -2,51 +2,35 @@
   "name": "snowball",
   "version": "0.0.0",
   "dependencies": {
-    "optimist": {
-      "version": "0.6.0",
-      "from": "optimist@latest",
-      "dependencies": {
-        "wordwrap": {
-          "version": "0.0.2",
-          "from": "wordwrap@~0.0.2"
-        },
-        "minimist": {
-          "version": "0.0.2",
-          "from": "minimist@~0.0.1"
-        }
-      }
-    },
-    "coffeeify": {
-      "version": "0.5.1",
-      "from": "coffeeify@~0.5.1",
+    "mold-source-map": {
+      "version": "0.2.0",
+      "from": "mold-source-map@~0.2.0",
       "dependencies": {
         "through": {
           "version": "2.2.7",
-          "from": "through@~2.2.0"
+          "from": "through@~2.2.7"
         },
         "convert-source-map": {
           "version": "0.2.6",
-          "from": "convert-source-map@~0.2.3"
+          "from": "convert-source-map@~0.2.5"
         }
       }
     },
-    "process": {
-      "version": "0.5.1",
-      "from": "process@~0.5.1"
+    "async": {
+      "version": "0.2.9",
+      "from": "async@~0.2.9"
     },
     "through": {
       "version": "2.3.4",
-      "from": "through@~2.3.4"
+      "from": "through@"
     },
     "browserify": {
-      "version": "2.29.0",
-      "from": "browserify@git://github.com/bjoerge/node-browserify",
-      "resolved": "git://github.com/bjoerge/node-browserify#00ea424bc71c16ae2923cb2952d2cb5b9569d965",
+      "version": "2.34.3",
+      "from": "browserify@",
       "dependencies": {
         "module-deps": {
           "version": "1.0.2",
-          "from": "module-deps@git://github.com/bjoerge/module-deps",
-          "resolved": "git://github.com/bjoerge/module-deps#118a97294f0e808ac30fda51cd2c212e6ac2ba9a",
+          "from": "module-deps@~1.0.2",
           "dependencies": {
             "resolve": {
               "version": "0.4.3",
@@ -65,11 +49,11 @@
                   "from": "escodegen@0.0.15",
                   "dependencies": {
                     "source-map": {
-                      "version": "0.1.29",
+                      "version": "0.1.30",
                       "from": "source-map@>= 0.1.2",
                       "dependencies": {
                         "amdefine": {
-                          "version": "0.0.8",
+                          "version": "0.1.0",
                           "from": "amdefine@>=0.0.4"
                         }
                       }
@@ -79,40 +63,34 @@
               }
             },
             "minimist": {
-              "version": "0.0.2",
+              "version": "0.0.5",
               "from": "minimist@~0.0.1"
             }
           }
         },
         "browser-pack": {
-          "version": "0.10.1",
-          "from": "browser-pack@~0.10.0",
+          "version": "0.11.0",
+          "from": "browser-pack@~0.11.0",
           "dependencies": {
             "combine-source-map": {
-              "version": "0.1.3",
-              "from": "combine-source-map@~0.1.1",
+              "version": "0.2.0",
+              "from": "combine-source-map@~0.2.0",
               "dependencies": {
                 "convert-source-map": {
                   "version": "0.2.6",
                   "from": "convert-source-map@~0.2.3"
                 },
-                "parse-base64vlq-mappings": {
-                  "version": "0.1.4",
-                  "from": "parse-base64vlq-mappings@~0.1.1"
-                },
                 "inline-source-map": {
                   "version": "0.2.5",
-                  "from": "inline-source-map@~0.2.1",
+                  "from": "inline-source-map@~0.2.1"
+                },
+                "source-map": {
+                  "version": "0.1.30",
+                  "from": "source-map@~0.1.27",
                   "dependencies": {
-                    "source-map": {
-                      "version": "0.1.29",
-                      "from": "source-map@~0.1.25",
-                      "dependencies": {
-                        "amdefine": {
-                          "version": "0.0.8",
-                          "from": "amdefine@>=0.0.4"
-                        }
-                      }
+                    "amdefine": {
+                      "version": "0.1.0",
+                      "from": "amdefine@>=0.0.4"
                     }
                   }
                 }
@@ -125,7 +103,7 @@
           "from": "deps-sort@~0.1.1",
           "dependencies": {
             "minimist": {
-              "version": "0.0.2",
+              "version": "0.0.5",
               "from": "minimist@~0.0.1"
             }
           }
@@ -169,8 +147,8 @@
           }
         },
         "insert-module-globals": {
-          "version": "1.2.1",
-          "from": "insert-module-globals@~1.2.0",
+          "version": "1.3.1",
+          "from": "insert-module-globals@~1.3.0",
           "dependencies": {
             "commondir": {
               "version": "0.0.1",
@@ -191,6 +169,10 @@
                   }
                 }
               }
+            },
+            "process": {
+              "version": "0.5.1",
+              "from": "process@~0.5.1"
             },
             "through": {
               "version": "2.2.7",
@@ -223,52 +205,48 @@
           }
         },
         "browser-resolve": {
-          "version": "1.1.3",
+          "version": "1.1.4",
           "from": "browser-resolve@~1.1.0",
           "dependencies": {
             "resolve": {
-              "version": "0.4.2",
-              "from": "resolve@0.4.2"
+              "version": "0.5.1",
+              "from": "resolve@0.5.1"
             }
           }
         },
         "browser-builtins": {
-          "version": "1.0.7",
-          "from": "browser-builtins@~1.0.1",
+          "version": "2.0.5",
+          "from": "browser-builtins@2.0.5",
           "dependencies": {
-            "resolve": {
-              "version": "0.3.1",
-              "from": "resolve@~0.3.0"
-            },
             "punycode": {
               "version": "1.2.3",
               "from": "punycode@1.2.x"
             },
             "console-browserify": {
-              "version": "0.1.6",
-              "from": "console-browserify@0.1.x"
+              "version": "1.0.1",
+              "from": "console-browserify@~1.0.1"
             },
             "vm-browserify": {
               "version": "0.0.1",
               "from": "vm-browserify@0.0.x"
             },
             "crypto-browserify": {
-              "version": "1.0.2",
+              "version": "1.0.5",
               "from": "crypto-browserify@1.0.x"
             },
             "http-browserify": {
-              "version": "0.1.12",
+              "version": "0.1.13",
               "from": "http-browserify@0.1.x",
               "dependencies": {
                 "Base64": {
-                  "version": "0.1.2",
+                  "version": "0.1.4",
                   "from": "Base64@~0.1.2"
                 }
               }
             },
             "buffer-browserify": {
-              "version": "0.1.0",
-              "from": "buffer-browserify@0.1.x",
+              "version": "0.2.2",
+              "from": "buffer-browserify@0.2.x",
               "dependencies": {
                 "base64-js": {
                   "version": "0.0.2",
@@ -277,12 +255,36 @@
               }
             },
             "zlib-browserify": {
-              "version": "0.0.1",
-              "from": "zlib-browserify@0.0.x"
+              "version": "0.0.3",
+              "from": "zlib-browserify@0.0.x",
+              "dependencies": {
+                "tape": {
+                  "version": "0.2.2",
+                  "from": "tape@~0.2.2",
+                  "dependencies": {
+                    "jsonify": {
+                      "version": "0.0.0",
+                      "from": "jsonify@~0.0.0"
+                    },
+                    "deep-equal": {
+                      "version": "0.0.0",
+                      "from": "deep-equal@~0.0.0"
+                    },
+                    "defined": {
+                      "version": "0.0.0",
+                      "from": "defined@~0.0.0"
+                    }
+                  }
+                }
+              }
             },
             "constants-browserify": {
               "version": "0.0.1",
               "from": "constants-browserify@0.0.x"
+            },
+            "os-browserify": {
+              "version": "0.1.1",
+              "from": "os-browserify@0.1.x"
             }
           }
         },
@@ -315,8 +317,8 @@
           }
         },
         "umd": {
-          "version": "1.1.1",
-          "from": "umd@~1.1.0",
+          "version": "1.3.1",
+          "from": "umd@~1.3.0",
           "dependencies": {
             "rfile": {
               "version": "1.0.0",
@@ -334,18 +336,46 @@
             },
             "ruglify": {
               "version": "1.0.0",
-              "from": "ruglify@~1.0.0"
+              "from": "ruglify@~1.0.0",
+              "dependencies": {
+                "uglify-js": {
+                  "version": "2.2.5",
+                  "from": "uglify-js@~2.2",
+                  "dependencies": {
+                    "source-map": {
+                      "version": "0.1.30",
+                      "from": "source-map@~0.1.7",
+                      "dependencies": {
+                        "amdefine": {
+                          "version": "0.1.0",
+                          "from": "amdefine@>=0.0.4"
+                        }
+                      }
+                    },
+                    "optimist": {
+                      "version": "0.3.7",
+                      "from": "optimist@~0.3.5",
+                      "dependencies": {
+                        "wordwrap": {
+                          "version": "0.0.2",
+                          "from": "wordwrap@~0.0.2"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             },
             "uglify-js": {
-              "version": "2.2.5",
-              "from": "uglify-js@~2.2.5",
+              "version": "2.4.0",
+              "from": "uglify-js@~2.4.0",
               "dependencies": {
                 "source-map": {
-                  "version": "0.1.29",
-                  "from": "source-map@~0.1.7",
+                  "version": "0.1.30",
+                  "from": "source-map@>= 0.1.2",
                   "dependencies": {
                     "amdefine": {
-                      "version": "0.0.8",
+                      "version": "0.1.0",
                       "from": "amdefine@>=0.0.4"
                     }
                   }
@@ -359,6 +389,10 @@
                       "from": "wordwrap@~0.0.2"
                     }
                   }
+                },
+                "uglify-to-browserify": {
+                  "version": "1.0.1",
+                  "from": "uglify-to-browserify@~1.0.0"
                 }
               }
             }
@@ -367,177 +401,42 @@
         "parents": {
           "version": "0.0.1",
           "from": "parents@~0.0.1"
+        },
+        "deep-equal": {
+          "version": "0.1.0",
+          "from": "deep-equal@~0.1.0"
         }
       }
     },
-    "jade": {
-      "version": "0.31.2",
-      "from": "jade@~0.31.2",
+    "stream-combiner": {
+      "version": "0.0.2",
+      "from": "stream-combiner@",
       "dependencies": {
-        "commander": {
-          "version": "1.1.1",
-          "from": "commander@1.1.1",
-          "resolved": "http://registry.npmjs.org/commander/-/commander-1.1.1.tgz",
+        "duplexer": {
+          "version": "0.0.4",
+          "from": "duplexer@~0.0.3"
+        }
+      }
+    },
+    "concat-stream": {
+      "version": "1.0.1",
+      "from": "concat-stream@",
+      "dependencies": {
+        "bops": {
+          "version": "0.0.6",
+          "from": "bops@0.0.6",
           "dependencies": {
-            "keypress": {
-              "version": "0.1.0",
-              "from": "keypress@0.1.x"
-            }
-          }
-        },
-        "mkdirp": {
-          "version": "0.3.5",
-          "from": "mkdirp@0.3.x"
-        },
-        "transformers": {
-          "version": "2.0.1",
-          "from": "transformers@2.0.1",
-          "dependencies": {
-            "promise": {
-              "version": "2.0.0",
-              "from": "promise@~2.0",
-              "dependencies": {
-                "is-promise": {
-                  "version": "1.0.0",
-                  "from": "is-promise@~1"
-                }
-              }
+            "base64-js": {
+              "version": "0.0.2",
+              "from": "base64-js@0.0.2"
             },
-            "css": {
-              "version": "1.0.8",
-              "from": "css@~1.0.8",
-              "dependencies": {
-                "css-parse": {
-                  "version": "1.0.4",
-                  "from": "css-parse@1.0.4"
-                },
-                "css-stringify": {
-                  "version": "1.0.5",
-                  "from": "css-stringify@1.0.5"
-                }
-              }
-            },
-            "uglify-js": {
-              "version": "2.2.5",
-              "from": "uglify-js@~2.2.5",
-              "dependencies": {
-                "source-map": {
-                  "version": "0.1.29",
-                  "from": "source-map@~0.1.7",
-                  "dependencies": {
-                    "amdefine": {
-                      "version": "0.0.8",
-                      "from": "amdefine@>=0.0.4"
-                    }
-                  }
-                },
-                "optimist": {
-                  "version": "0.3.7",
-                  "from": "optimist@~0.3.5",
-                  "dependencies": {
-                    "wordwrap": {
-                      "version": "0.0.2",
-                      "from": "wordwrap@~0.0.2"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "character-parser": {
-          "version": "1.0.2",
-          "from": "character-parser@1.0.2"
-        },
-        "monocle": {
-          "version": "0.1.48",
-          "from": "monocle@0.1.48",
-          "dependencies": {
-            "readdirp": {
-              "version": "0.2.5",
-              "from": "readdirp@~0.2.3",
-              "dependencies": {
-                "minimatch": {
-                  "version": "0.2.12",
-                  "from": "minimatch@>=0.2.4",
-                  "dependencies": {
-                    "lru-cache": {
-                      "version": "2.3.1",
-                      "from": "lru-cache@2"
-                    },
-                    "sigmund": {
-                      "version": "1.0.0",
-                      "from": "sigmund@~1.0.0"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "with": {
-          "version": "1.0.4",
-          "from": "with@1.0.4",
-          "dependencies": {
-            "lexical-scope": {
-              "version": "0.0.12",
-              "from": "lexical-scope@0.0.12",
-              "dependencies": {
-                "astw": {
-                  "version": "0.0.0",
-                  "from": "astw@~0.0.0",
-                  "dependencies": {
-                    "esprima": {
-                      "version": "1.0.2",
-                      "from": "esprima@1.0.2"
-                    }
-                  }
-                }
-              }
+            "to-utf8": {
+              "version": "0.0.1",
+              "from": "to-utf8@0.0.1"
             }
           }
         }
       }
-    },
-    "coffee-script": {
-      "version": "1.6.3",
-      "from": "coffee-script@~1.6.3"
-    },
-    "envify": {
-      "version": "0.2.0",
-      "from": "envify@latest",
-      "resolved": "http://registry.npmjs.org/envify/-/envify-0.2.0.tgz",
-      "dependencies": {
-        "falafel": {
-          "version": "0.2.1",
-          "from": "falafel@~0.2.1",
-          "dependencies": {
-            "esprima": {
-              "version": "1.1.0-dev",
-              "from": "git://github.com/substack/esprima#is-keyword",
-              "resolved": "git://github.com/substack/esprima#0a7f8489a11b44b019ce168506f535f22d0be290"
-            }
-          }
-        }
-      }
-    },
-    "caching-coffeeify": {
-      "version": "0.2.0",
-      "from": "caching-coffeeify@~0.2.0",
-      "dependencies": {
-        "through": {
-          "version": "2.2.7",
-          "from": "through@~2.2.0"
-        },
-        "convert-source-map": {
-          "version": "0.2.6",
-          "from": "convert-source-map@~0.2.3"
-        }
-      }
-    },
-    "text-to-js-identifier": {
-      "version": "0.0.4",
-      "from": "text-to-js-identifier@0.0.4"
     }
   }
 }
