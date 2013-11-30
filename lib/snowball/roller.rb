@@ -9,6 +9,11 @@ module Snowball
   class Roller
     def self.roll(file, environment, opts={})
       start = Time.new
+
+      if environment.raw? and not environment.browserify?
+        return { 'code' => File.read(file) }
+      end
+      
       args = []
 
       args << environment.noparse.map { |node_module| "--noparse #{node_module}" }.join(" ")
@@ -18,7 +23,7 @@ module Snowball
       args << environment.extensions.map { |extension| "--extension .#{extension}" }.join(" ")
       args << '--debug' if environment.debug?
       args << '--jserr' if environment.jserr?
-      args << '--raw' if environment.raw?
+      args << '--browserify' if environment.browserify?
       if environment.externalize_source_map?
         args << '--externalize-source-map'
         source_map_url = opts[:source_map_url] || "#{File.basename(file, File.extname(file))}.map"

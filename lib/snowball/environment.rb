@@ -10,9 +10,10 @@ module Snowball
 #   jserr:        Forward errors as javascript throw statements. Useful during development to let bundle errors appear in 
 #                 developer tools console instead of having a 500 error when loading javascript
 #   debug:        Pass the debug flag to browserify. Will include source map (defaults to env['RACK_ENV'] == development)
-#   raw:          If set to true, the files in the environment will be compiled/transformed, but not bundled. Useful if
-#                 you have a source file with no require() statements or a file that is loaded dynamically after
+#   browserify:   If set to false, the files in the environment will be compiled/transformed, but not browserified. 
+#                 Useful if you have a source file with no require() statements or a file that is loaded dynamically after
 #                 require() is defined
+#   raw:          If set to true, matching files will just be served as-is without being browserified or transformed
 #
   class Environment
     DEFAULTS = {
@@ -23,6 +24,7 @@ module Snowball
         transforms: -> { [] },
         debug: -> { ENV['RACK_ENV'] == 'development' },
         externalize_source_map: -> { false },
+        browserify: -> { true },
         raw: -> { false },
         includes: -> { [] },
         noparse: -> { [] },
@@ -100,6 +102,8 @@ module Snowball
     end
 
     def method_missing(method_name, *args, &block)
+      return false if method_name == :off
+      return true if method_name == :on
 
       method_name_as_str = method_name.to_s
       option_str, suffix = method_name_as_str.match(/(\w+)([=\?])?$/).captures

@@ -18,9 +18,9 @@ var argv = optimist
     alias: 'e',
     desc: 'An entry point of your app'
   })
-  .option('raw', {
-    alias: 'r',
-    desc: 'Just compile entry file, without using browserify.'
+  .option('browserify', {
+    alias: 'b',
+    desc: 'Compile entry file with browserify.'
   })
   .option('debug', {
     alias: 'd',
@@ -80,7 +80,7 @@ if (!fs.existsSync("./package.json")) {
 
 var transforms = [].concat(argv.transform).filter(Boolean);
 
-if (argv.raw) {
+if (!argv.browserify) {
   // Don't run it through browserify itself, only run it through registered transforms
 
   var Module = require("module");

@@ -36,7 +36,7 @@ module Snowball
     #       }
     #     end
     #
-    # A request for `"/js/foo/bar.js"` will serve `"./javascript/foo/bar.js"`
+    # A request for `"/js/foo/bar.js"` will return the contents of `"./javascript/foo/bar.js"`
     def call(env)
 
       # Mark session as "skipped" so no `Set-Cookie` header is set
