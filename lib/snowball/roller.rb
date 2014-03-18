@@ -1,7 +1,7 @@
 require "open3"
 
 module Snowball
-  EXECUTABLE = Pathname.new(__FILE__).join("../../../", "bin/roll.js").realpath
+  EXECUTABLE = Pathname.new(__FILE__).join("..", "roll.js").realpath
   class RollError < Exception; end
 
   class Roller
