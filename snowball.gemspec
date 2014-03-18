@@ -15,8 +15,6 @@ Gem::Specification.new do |gem|
   gem.name          = "snowball"
   gem.require_paths = ["lib"]
   gem.version       = Snowball::VERSION
-  
-  gem.extensions << 'extconf.rb'
 
   gem.add_development_dependency "sinatra"
   gem.add_development_dependency "haml"
