@@ -1,4 +1,5 @@
 require "open3"
+require 'pathname'
 
 module Snowball
   EXECUTABLE = Pathname.new(__FILE__).join("../../../", "bin/roll.js").realpath
